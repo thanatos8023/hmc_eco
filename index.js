@@ -142,6 +142,6 @@ kakaoRouter.post('/kakao', function (req, res) {
 });
 
 
-app.listen(23701, function() {
+app.listen(23702, function() {
 	console.log("Example skill server listening on port 23702!");
 });
