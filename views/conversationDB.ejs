@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    <%= title %>
+  </title>
+</head>
+
+<body style="background-color:rgb(184, 185, 209)">
+    <h3>HMC Chatbot Conversation Database</h3>
+    <table style="width:100%; border:1px solid #444444;">
+        <tr>
+            <th class="jb-th-1" style="border:1px solid #444444;">카카오 ID</td>
+            <th class="jb-th-1" style="border:1px solid #444444;">사용자 명령</td>
+            <th class="jb-th-1" style="border:1px solid #444444;">챗봇 응답</td>
+            <th class="jb-th-1" style="border:1px solid #444444;">발화 종류</td>
+            <th class="jb-th-1" style="border:1px solid #444444;">일시</td>
+        </tr>
+        <% for(var i = 0; i < result.length; i++) {%>
+        <tr>
+            <td style="border:1px solid #444444;"><%= result[i].kakao_info %></td>
+            <td style="border:1px solid #444444;"><%= result[i].command%></td>
+            <td style="border:1px solid #444444;"><%= result[i].conversation%></td>
+            <td style="border:1px solid #444444;"><%= result[i].result%></td>
+            <td style="border:1px solid #444444;"><%= result[i].date%></td>
+        </tr>
+        <% }%>
+    </table>
+</body>
+
+</html>

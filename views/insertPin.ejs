@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    <%= title %>
+  </title>
+  <link href="/stylesheets/stylesheets/style.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script>
+    function input_password_form(num) {
+      var first_num = document.getElementById("first_input");
+      var second_num = document.getElementById("second_input");
+      var third_num = document.getElementById("third_input");
+      var firth_num = document.getElementById("firth_input");
+
+      if (first_num.value == "") {
+        first_num.value = num
+      } else if (second_num.value == "") {
+        second_num.value = num
+      } else if (third_num.value == "") {
+        third_num.value = num
+      } else {
+        firth_num.value = num
+        var input_password = first_num.value + second_num.value + third_num.value + firth_num.value;
+
+        var input_password = first_num.value + second_num.value + third_num.value + firth_num.value;
+
+        var state = "<%=state%>";
+        var pin = input_password;
+
+        alert("인증에 성공하였습니다. 명령을 수행합니다. 왼쪽상단의 X 버튼을 클릭하여 창을 종료하신 후 채팅창에 제어결과를 입력하여 결과를 확인 해주세요.");
+        window.close();
+      }
+    }
+
+    function deleteNum() {
+      var first_num = document.getElementById("first_input");
+      var second_num = document.getElementById("second_input");
+      var third_num = document.getElementById("third_input");
+      var firth_num = document.getElementById("firth_input");
+
+      if (firth_num.value != "") {
+        firth_num.value = ""
+      } else if (third_num.value != "") {
+        third_num.value = ""
+      } else if (second_num.value != "") {
+        second_num.value = ""
+      } else if (first_num.value != "") {
+        first_num.value = ""
+      }
+    }
+
+    function clearPassword() {
+      var first_num = document.getElementById("first_input");
+      var second_num = document.getElementById("second_input");
+      var third_num = document.getElementById("third_input");
+      var firth_num = document.getElementById("firth_input");
+
+      first_num.value = second_num.value = third_num.value = firth_num.value = ""
+    }
+  </script>
+</head>
+
+<body style="background-color:rgb(184, 185, 209)">
+  <div div class="divListGroup" id="content">
+    <div class="divChild" id="upper">
+      <div class="divChild" id="input_num">
+        <br>
+        <br>
+        <br>
+        <br>
+        <table style="width:240px">
+          <tr style="height:60px">
+            <td><input type="password" style="height:60px; width:60px; text-align:center" id="first_input" name="first_input"
+                value="" readonly="readonly"></td>
+            <td><input type="password" style="height:60px; width:60px; text-align:center" id="second_input" name="second_input"
+                value="" readonly="readonly"></td>
+            <td><input type="password" style="height:60px; width:60px; text-align:center" id="third_input" name="third_input"
+                value="" readonly="readonly"></td>
+            <td><input type="password" style="height:60px; width:60px; text-align:center" id="firth_input" name="firth_input"
+                value="" readonly="readonly"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="divChild" id="num_button">
+      <br><br><br><br>
+      <table style="width:240px">
+        <tr style="height:50px">
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[0]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[0]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[1]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[1]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[2]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[2]%></button></td>
+        </tr>
+        <tr style="height:50px">
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[3]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[3]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[4]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[4]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[5]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[5]%></button></td>
+        </tr>
+        <tr style="height:50px">
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[6]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[6]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[7]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[7]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[8]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[8]%></button></td>
+        </tr>
+        <tr style="height:50px">
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[9]%>
+              onclick="deleteNum()">DEL</button>
+          </td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[9]%>
+              onclick="input_password_form(value)">
+              <%= num_arr[9]%></button></td>
+          <td><button type="button" class="btn" style="width:80px; height:50px;" value=<%=num_arr[9]%>
+              onclick="clearPassword()">CLEAR</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>
