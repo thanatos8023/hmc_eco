@@ -25,7 +25,7 @@ app.use('/facebook', facebookRouter);
 /////////   Kakao  //////// 
 ///////////////////////////
 
-kakaoRouter.post('/kakao', function (req, res) {
+kakaoRouter.post('/', function (req, res) {
   // 사용자 확인 
   var sql = 'SELECT * FROM `tb_user_info` where `kakao_info` = ?';
   conn.query(sql, [req.body.userRequest.user.id], function(err, user_info, body) {
