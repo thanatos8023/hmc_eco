@@ -72,7 +72,7 @@ kakaoRouter.post('/', function (req, res) {
 
     // 응답 역시 콘솔로 표시
     console.log("SERVER :: Kakao Eco :: API response data");
-    console.log(apiResponse.body);
+    console.log(JSON.parse(apiResponse.body));
 
     // 응답 결과를 카카오 형식으로 변환해서 카카오 챗봇에 응답함
     const responseBody = {
