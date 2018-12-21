@@ -49,8 +49,8 @@ kakaoRouter.post('/', function (req, res) {
   var options = {
     "url": "http://58.225.115.230:23701/hmc/message",
     "method": "POST",
-    "header": requestHeader,
-    "body": requestBody,
+    "header": JSON.stringify(requestHeader),
+    "body": JSON.stringify(requestBody),
   }
 
   request(options, function (err, apiResponse, body) {
