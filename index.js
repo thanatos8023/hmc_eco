@@ -71,30 +71,74 @@ kakaoRouter.post('/', function (req, res) {
     //console.log(body);
 
     // 응답 역시 콘솔로 표시
+    var apiResponseBody = JSON.parse(apiResponse.body);
     console.log("SERVER :: Kakao Eco :: API response data");
-    console.log(JSON.parse(apiResponse.body));
+    console.log(apiResponseBody);
 
     // 응답 결과를 카카오 형식으로 변환해서 카카오 챗봇에 응답함
-    const responseBody = {
-      "version": "2.0",
-      "template": {
-        "outputs": [
-          {
-            "basicCard": {
-              "title": "보물상자",
-              "description": "보물상자 안에는 뭐가 있을까",
-              "buttons": [
-                {
-                  "action":  "webLink",
-                  "label": "구경하기",
-                  "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
-                }
-              ]
+    // 1. 버튼 응답이 없는 일반 텍스트
+    if (apiResponseBody.keyboard == null || apiResponseBody.message.message_button == null) {
+      const responseBody = {
+        "version": "2.0",
+        "template": {
+          "outputs": [
+            {
+              "simpleText": {
+                "text": apiResponseBody.message.text,
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     }
+    // 2. Url 링크가 존재하는 응답
+    else if (apiResponseBody.message.message_button != null) {
+      const responseBody = {
+        "version": "2.0",
+        "template": {
+          "outputs": [
+            {
+              "basicCard": {
+                "description": apiResponseBody.message.text,
+                "buttons": [
+                  {
+                    "action": "webLink",
+                    "label": apiResponseBody.message.message_button.label,
+                    "webLinkUrl": apiResponseBody.message.message_button.url,
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+    // 3. 연결 링크만 존재하는 응답
+    else {
+      var buttonList = [];
+      for (var i = 0, i < apiResponseBody.keyboard.buttons.length, i++) {
+        buttonList.push({
+          "action": "message",
+          "label": apiResponseBody.keyboard.buttons[i],
+          "messageText": apiResponseBody.keyboard.buttons[i],
+        });
+      }
+
+      const responseBody = {
+        "version": "2.0",
+        "template": {
+          "outputs": [
+            {
+              "basicCard": {
+                "description": apiResponseBody.message.text,
+                "buttons": buttonList,
+              }
+            }
+          ]
+        }
+      }
+    }
+    
     res.send(responseBody);
   });
 });
