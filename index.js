@@ -64,7 +64,7 @@ kakaoRouter.post('/', function (req, res) {
 
   request.post({
     url: 'http://58.225.115.230:23701',
-    body: requestBody
+    body: JSON.stringify(requestBody)
   }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
