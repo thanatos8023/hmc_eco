@@ -31,29 +31,6 @@ kakaoRouter.post('/', function (req, res) {
   console.log("uuid_state : " + uuid_state)
   console.log("state : " + state);
 
-  // 온도는 시동 걸기에서만 입력됨
-  if (req.body.action.params.sys_unit_temperature == null) {
-    var degree = req.body.action.params.degree;
-    if (degree === "적정") {
-      var temperature = 23;
-    } else if (degree === "최대") {
-      var temperature = 32;
-    } else if (degree === "최저") {
-      var temperature = 16;
-    } else if (degree === "따뜻") {
-      var temperature = 28;
-    } else if (degree === "시원") {
-      var temperature = 19;
-    }
-    console.log("temperature : " + temp);
-  } else if (req.body.action.params.sys_unit_temperature != null) {
-    var temp = JSON.parse(req.body.action.params.sys_unit_temperature);
-    var temperature = temp.amount; 
-    console.log("temperature : " + temperature);
-  } else {
-    var temperature = null;
-  }
-
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
   var requestBody = {
@@ -62,10 +39,14 @@ kakaoRouter.post('/', function (req, res) {
     content: req.body.userRequest.utterance,
   }
 
-  request.post({
-    url: 'http://58.225.115.230:23701/hmc/message',
-    body: JSON.stringify(requestBody)
-  }, function (err, apiResponse, body) {
+  // request form for API server
+  var options = {
+    url: "http://58.225.115.230:23701/hmc/message",
+    method: "POST",
+    body: requestBody,
+  }
+
+  request(options, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
       res.status(500).send("SERVER :: Kakao ECO Server error :: Location : Requesting for kakao");
