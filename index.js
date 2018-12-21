@@ -49,19 +49,26 @@ kakaoRouter.post('/', function (req, res) {
   var options = {
     "url": "http://58.225.115.230:23701/hmc/message",
     "method": "POST",
-    "header": JSON.stringify(requestHeader),
+    "headers": JSON.stringify(requestHeader),
     "body": JSON.stringify(requestBody),
   }
 
-  request(options, function (err, apiResponse, body) {
+  request.post({
+    url: "http://58.225.115.230:23701/hmc/message", 
+    form: {
+      user_key: state,
+      type: "text",
+      content: content,
+    }
+  }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
       res.status(500).send("SERVER :: Kakao ECO Server error :: Location : Requesting for kakao");
     }
 
     // 디버깅을 위해 요청한 body 정보를 콘솔로 표시
-    console.log("SERVER :: Kakao Eco :: Kakao Request bodyform ::");
-    console.log(body);
+    //console.log("SERVER :: Kakao Eco :: Kakao Request bodyform ::");
+    //console.log(body);
 
     // 응답 역시 콘솔로 표시
     console.log("SERVER :: Kakao Eco :: API response data");
