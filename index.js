@@ -39,10 +39,15 @@ kakaoRouter.post('/', function (req, res) {
     content: req.body.userRequest.utterance,
   }
 
+  var requestHeader = {
+    "Coontent-Type": "application/json",
+  }
+
   // request form for API server
   var options = {
     url: "http://58.225.115.230:23701/hmc/message",
     method: "POST",
+    header: requestHeader,
     body: requestBody,
   }
 
