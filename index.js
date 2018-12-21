@@ -142,7 +142,7 @@ kakaoRouter.post('/', function (req, res) {
     }
 
     console.log("SERVER :: Kakao Eco :: Kakao response data");
-    console.log(responseBody);
+    console.log(responseBody.template.outputs);
 
     res.send(responseBody);
   });
