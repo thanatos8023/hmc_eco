@@ -80,7 +80,27 @@ kakaoRouter.post('/', function (req, res) {
     console.log(apiResponse);
 
     // 응답 결과를 카카오 형식으로 변환해서 카카오 챗봇에 응답함
-    res.send(apiResponse);
+    const responseBody = {
+      "version": "2.0",
+      "template": {
+        "outputs": [
+          {
+            "basicCard": {
+              "title": "보물상자",
+              "description": "보물상자 안에는 뭐가 있을까",
+              "buttons": [
+                {
+                  "action":  "webLink",
+                  "label": "구경하기",
+                  "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+    res.send(responseBody);
   });
 });
 
