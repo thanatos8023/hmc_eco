@@ -79,7 +79,7 @@ kakaoRouter.post('/', function (req, res) {
 
     // 응답 결과를 카카오 형식으로 변환해서 카카오 챗봇에 응답함
     // 1. 버튼 응답이 없는 일반 텍스트
-    if (apiResponseBody.keyboard == null || apiResponseBody.message.message_button == null) {
+    if (apiResponseBody.keyboard == null && apiResponseBody.message.message_button == null) {
       responseBody = {
         "version": "2.0",
         "template": {
