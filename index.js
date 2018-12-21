@@ -28,15 +28,17 @@ app.use('/facebook', facebookRouter);
 kakaoRouter.post('/', function (req, res) {
   var state = req.body.userRequest.user.id;
   var uuid_state = state + "&" + uuid.v1();
+  var content = req.body.userRequest.utterance;
   console.log("uuid_state : " + uuid_state)
   console.log("state : " + state);
+  console.log("content : " + content);
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
   var requestBody = {
-    user_key: state,
-    type: "text",
-    content: req.body.userRequest.utterance,
+    "user_key": state,
+    "type": "text",
+    "content": content,
   }
 
   var requestHeader = {
@@ -45,10 +47,10 @@ kakaoRouter.post('/', function (req, res) {
 
   // request form for API server
   var options = {
-    url: "http://58.225.115.230:23701/hmc/message",
-    method: "POST",
-    header: requestHeader,
-    body: requestBody,
+    "url": "http://58.225.115.230:23701/hmc/message",
+    "method": "POST",
+    "header": requestHeader,
+    "body": requestBody,
   }
 
   request(options, function (err, apiResponse, body) {
