@@ -116,7 +116,7 @@ kakaoRouter.post('/', function (req, res) {
     // 3. 연결 링크만 존재하는 응답
     else {
       var buttonList = [];
-      for (var i = 0, i < apiResponseBody.keyboard.buttons.length, i++) {
+      for (var i = 0; i < apiResponseBody.keyboard.buttons.length; i++) {
         buttonList.push({
           "action": "message",
           "label": apiResponseBody.keyboard.buttons[i],
@@ -138,7 +138,7 @@ kakaoRouter.post('/', function (req, res) {
         }
       }
     }
-    
+
     res.send(responseBody);
   });
 });
