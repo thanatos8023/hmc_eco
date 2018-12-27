@@ -145,7 +145,7 @@ kakaoRouter.post('/', function (req, res) {
                 "description": apiResponseBody.text,
                 "thumbnail": {
                   "imageUrl": apiResponseBody.imageUrl,
-                }
+                },
                 "buttons": buttonList,
               }
             }
