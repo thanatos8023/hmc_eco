@@ -35,30 +35,14 @@ kakaoRouter.post('/', function (req, res) {
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
-  var requestBody = {
-    "user_key": state,
-    "type": "text",
-    "content": content,
-  }
-
-  var requestHeader = {
-    "Coontent-Type": "application/json",
-  }
-
-  // request form for API server
-  var options = {
-    "url": "http://58.225.115.230:23701/hmc/message",
-    "method": "POST",
-    "headers": JSON.stringify(requestHeader),
-    "body": JSON.stringify(requestBody),
-  }
-
   request.post({
-    url: "http://58.225.115.230:23701/hmc/message", 
+    url: "http://58.225.115.230:23701/dm", 
     form: {
-      user_key: state,
-      type: "text",
-      content: content,
+      "user_key": state,
+      "utt": content,
+      "code": 7000,
+      "intention": "",
+      "options": 0,
     }
   }, function (err, apiResponse, body) {
     if (err) {
