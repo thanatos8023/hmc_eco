@@ -36,7 +36,7 @@ kakaoRouter.post('/', function (req, res) {
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
   request.post({
-    url: "http://58.225.115.230:23701/dm", 
+    url: "http://192.168.123.237:5050/dm", 
     form: {
       "user_key": state,
       "utt": content,
