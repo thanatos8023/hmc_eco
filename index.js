@@ -224,7 +224,7 @@ kakaoRouter.post('/', function (req, res) {
           "outputs": [
             {
               "simpleImage": {
-                "imageUrl": 
+                "imageUrl": apiResponseBody.imageUrl,
                 "altText": "이미지를 찾을 수 없습니다.",
               }
             }
