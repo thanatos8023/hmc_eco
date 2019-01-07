@@ -37,7 +37,7 @@ kakaoRouter.post('/', function (req, res) {
   // POST 방식으로 form 변수로 전달함
   request.post({
     url: "http://192.168.123.237:23701/message", 
-    json: {
+    form: {
       "user_key": state,
       "content": content,
       "type": "text",
