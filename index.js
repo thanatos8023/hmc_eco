@@ -36,18 +36,16 @@ kakaoRouter.post('/', function (req, res) {
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
   request.post({
-    url: "http://192.168.123.237:5050/dm", 
+    url: "http://192.168.123.237:20731/message", 
     form: {
       "user_key": state,
-      "utt": content,
-      "code": 7000,
-      "intention": "",
-      "options": 0,
+      "content": content,
+      "type": "text",
     }
   }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
-      res.status(500).send("SERVER :: Kakao ECO Server error :: Location : Requesting for kakao");
+      res.status(500).send("SERVER :: Kakao API Server error :: Location : Requesting for kakao");
     }
 
     // 디버깅을 위해 요청한 body 정보를 콘솔로 표시
