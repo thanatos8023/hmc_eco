@@ -37,7 +37,7 @@ kakaoRouter.post('/', function (req, res) {
   // POST 방식으로 form 변수로 전달함
   request.post({
     url: "http://192.168.123.237:23701/message", 
-    form: {
+    json: {
       "user_key": state,
       "content": content,
       "type": "text",
@@ -45,7 +45,7 @@ kakaoRouter.post('/', function (req, res) {
   }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
-      res.status(500).send("SERVER :: Kakao API Server error :: Location : Requesting for kakao");
+      res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
     }
 
     // 디버깅을 위해 요청한 body 정보를 콘솔로 표시
