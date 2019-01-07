@@ -81,14 +81,13 @@ kakaoRouter.post('/', function (req, res) {
     }
     // 2. 버튼이 존재하는 응답
     else if (apiResponseBody.type == "messageButton") {
-
       var buttonList = [];
-      for (var i = 0; i < apiResponseBody.keyboard.buttons.length; i++) {
+      for (var i = 0; i < apiResponseBody.object1.length; i++) {
         buttonList.push({
-          "action": apiResponseBody.buttons[i].action,
-          "label": apiResponseBody.buttons[i].label,
-          "url": apiResponseBody.buttons[i].url,
-          "messageText": apiResponseBody.buttons[i].messageText,
+          "action": apiResponseBody.object1[i].action,
+          "label": apiResponseBody.object1[i].label,
+          "url": apiResponseBody.object1[i].url,
+          "messageText": apiResponseBody.object1[i].messageText,
         });
       }
 
@@ -111,12 +110,12 @@ kakaoRouter.post('/', function (req, res) {
     else if (apiResponseBody.type == "imageButton") {
 
       var buttonList = [];
-      for (var i = 0; i < apiResponseBody.buttons.length; i++) {
+      for (var i = 0; i < apiResponseBody.object2.length; i++) {
         buttonList.push({
-          "action": apiResponseBody.buttons[i].action,
-          "label": apiResponseBody.buttons[i].label,
-          "url": apiResponseBody.buttons[i].url,
-          "messageText": apiResponseBody.buttons[i].messageText,
+          "action": apiResponseBody.object2[i].action,
+          "label": apiResponseBody.object2[i].label,
+          "url": apiResponseBody.object2[i].url,
+          "messageText": apiResponseBody.object2[i].messageText,
         });
       }
 
@@ -128,7 +127,7 @@ kakaoRouter.post('/', function (req, res) {
               "basicCard": {
                 "description": apiResponseBody.text,
                 "thumbnail": {
-                  "imageUrl": apiResponseBody.imageUrl,
+                  "imageUrl": apiResponseBody.object1,
                 },
                 "buttons": buttonList,
               }
@@ -144,11 +143,11 @@ kakaoRouter.post('/', function (req, res) {
     else if (apiResponseBody.type == "quickReply") {
 
       var quickList = [];
-      for (var i = 0; i < apiResponseBody.quickReplies.length; i++) {
+      for (var i = 0; i < apiResponseBody.object1.length; i++) {
         quickList.push ({
-          "action": apiResponseBody.quickReplies[i].action,
-          "label": apiResponseBody.quickReplies[i].label,
-          "messageText": apiResponseBody.quickReplies[i].messageText,
+          "action": apiResponseBody.object1[i].action,
+          "label": apiResponseBody.object1[i].label,
+          "messageText": apiResponseBody.object1[i].messageText,
         });
       }
 
@@ -162,7 +161,7 @@ kakaoRouter.post('/', function (req, res) {
               }
             }
           ],
-          "quickReplies": quickList,
+          "quickReplies": object1,
         }
       }
 
@@ -171,13 +170,13 @@ kakaoRouter.post('/', function (req, res) {
     else if (apiResponseBody.type == "list") {
 
       var itemList = [];
-      for (var i = 0; i < apiResponseBody.items.length; i++) {
+      for (var i = 0; i < apiResponseBody.object1.length; i++) {
         itemList.push ({
-          "title": apiResponseBody.items[i].title,
-          "description": apiResponseBody.items[i].description,
-          "imageUrl": apiResponseBody.items[i].imageUrl,
+          "title": apiResponseBody.object1[i].title,
+          "description": apiResponseBody.object1[i].description,
+          "imageUrl": apiResponseBody.object1[i].imageUrl,
           "link": {
-            "web": apiResponseBody.items[i].homepage
+            "web": apiResponseBody.object1[i].homepage
           }
         });
       }
@@ -208,7 +207,7 @@ kakaoRouter.post('/', function (req, res) {
           "outputs": [
             {
               "simpleImage": {
-                "imageUrl": apiResponseBody.imageUrl,
+                "imageUrl": apiResponseBody.object1,
                 "altText": "이미지를 찾을 수 없습니다.",
               }
             }
