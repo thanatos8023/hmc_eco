@@ -47,7 +47,7 @@ kakaoRouter.post('/', function (req, res) {
   // POST 방식으로 form 변수로 전달함
   request.post({
     headers: headers,
-    url: "http://58.225.115.230:23701/message", 
+    url: "http://192.168.123.237:23701/hmc/message", 
     form: formData,
   }, function (err, apiResponse, body) {
     if (err) {
