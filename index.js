@@ -33,15 +33,22 @@ kakaoRouter.post('/', function (req, res) {
   console.log("state : " + state);
   console.log("content : " + content);
 
+  var headers = {
+    'Content-Type': 'application/json'
+  }
+
+  var formData = {
+    "user_key": state,
+    "content": content,
+    "type": "text",
+  }
+
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
   request.post({
+    headers: headers,
     url: "http://192.168.123.237:23701/message", 
-    form: {
-      "user_key": state,
-      "content": content,
-      "type": "text",
-    }
+    form: formData,
   }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
