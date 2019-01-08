@@ -221,7 +221,40 @@ kakaoRouter.post('/', function (req, res) {
       }
 
     }
+    // 7. 케로셀 (버튼이 개별적으로 존재하는 리스트)
+    else if (apiResponseBody.type == "carousel") {
+      var cels = []
+      for (var i = 0; i < apiResponseBody.object1.length; i++) {
+        cels.push({
+          "title": apiResponseBody.object1[i].title,
+          "description": apiResponseBody.object1[i].description,
+          "thumbnail": {
+            "imageUrl": apiResponseBody.object1[i].imageUrl,
+          },
+          "buttons": [
+            {
+              "action": "message",
+              "label": "여기로 할래",
+              "messageText": apiResponseBody.object1[i].title,
+            }
+          ]
+        });
+      }
 
+      responseBody = {
+        "version": "2.0",
+        "template": {
+          "outputs": [
+            {
+              "carousel": {
+                "type": "basicCard",
+                "items": cels
+              }
+            }
+          ]
+        }
+      }
+    }
 
     console.log("SERVER :: Kakao Eco :: Kakao response data");
     console.log(responseBody.template.outputs);
