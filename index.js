@@ -96,6 +96,10 @@ kakaoRouter.post('/', function (req, res) {
         });
       }
 
+      console.log("SERVER :: DEBUG BUTTONS :: ");
+      console.log(buttonList);
+      console.log("::::::::::::::::::::::::::::::::::::");
+
       responseBody = {
         "version": "2.0",
         "template": {
