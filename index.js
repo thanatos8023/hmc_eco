@@ -86,13 +86,14 @@ kakaoRouter.post('/', function (req, res) {
     }
     // 2. 버튼이 존재하는 응답
     else if (apiResponseBody.type == "messageButton") {
+      var buttonObj = JSON.parse(apiResponseBody.object1)
       var buttonList = [];
-      for (var i = 0; i < apiResponseBody.object1.length; i++) {
+      for (var i = 0; i < buttonObj.length; i++) {
         buttonList.push({
-          "action": apiResponseBody.object1[i].action,
-          "label": apiResponseBody.object1[i].label,
-          "url": apiResponseBody.object1[i].url,
-          "messageText": apiResponseBody.object1[i].messageText,
+          "action": buttonObj[i].action,
+          "label": buttonObj[i].label,
+          "url": buttonObj[i].url,
+          "messageText": buttonObj[i].messageText,
         });
       }
 
