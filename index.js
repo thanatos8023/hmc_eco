@@ -89,20 +89,12 @@ kakaoRouter.post('/', function (req, res) {
       var buttonObj = JSON.parse(apiResponseBody.object1)
       var buttonList = [];
       for (var i = 0; i < buttonObj.length; i++) {
-        if (buttonObj[i].action == "webLink") {
-          buttonList.push({
-            "action": buttonObj[i].action,
-            "label": buttonObj[i].label,
-            "url": buttonObj[i].url,
-          });
-        } else {
-            buttonList.push({
-            "action": buttonObj[i].action,
-            "label": buttonObj[i].label,
-            "messageText": buttonObj[i].messageText,
-          });
-        }
-        
+        buttonList.push({
+          "action": buttonObj[i].action,
+          "label": buttonObj[i].label,
+          "webLinkUrl": buttonObj[i].url,
+          "messageText": buttonObj[i].messageText,
+        });
       }
 
       console.log("SERVER :: DEBUG BUTTONS :: ");
