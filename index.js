@@ -151,13 +151,13 @@ kakaoRouter.post('/', function (req, res) {
     // 카카오톡에서만 확인된 기능
     // 네이버, 페이스북에서는 테스트가 필요함
     else if (apiResponseBody.type == "quickReply") {
-
+      var quickObj = JSON.parse(apiResponseBody.object1)
       var quickList = [];
-      for (var i = 0; i < apiResponseBody.object1.length; i++) {
+      for (var i = 0; i < quickObj.length; i++) {
         quickList.push ({
-          "action": apiResponseBody.object1[i].action,
-          "label": apiResponseBody.object1[i].label,
-          "messageText": apiResponseBody.object1[i].messageText,
+          "action": quickObj[i].action,
+          "label": quickObj[i].label,
+          "messageText": quickObj[i].messageText,
         });
       }
 
@@ -171,7 +171,7 @@ kakaoRouter.post('/', function (req, res) {
               }
             }
           ],
-          "quickReplies": object1,
+          "quickReplies": quickList,
         }
       }
 
