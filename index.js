@@ -268,6 +268,13 @@ kakaoRouter.post('/', function (req, res) {
   });
 });
 
+///////////////////////////
+/////////   naver  //////// 
+///////////////////////////
+
+naverRouter.post('/', function (req, res) {
+  console.log(req);
+});
 
 app.listen(23702, function() {
 	console.log("Example skill server listening on port 23702!");
