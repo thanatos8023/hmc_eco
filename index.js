@@ -286,6 +286,11 @@ app.post('/naver', function (req, res) {
   res.send("Hello world")
 });
 
+app.get('/', function (req, res) {
+  console.log(req);
+  res.send("Hello world");
+});
+
 app.listen(23702, function() {
 	console.log("Example skill server listening on port 23702!");
 });
