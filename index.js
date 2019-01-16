@@ -18,7 +18,7 @@ app.use(logger('dev', {}));
 app.use(bodyParser.json());
 
 app.use('/kakao', kakaoRouter);
-app.use('/naver', naverRouter);
+//app.use('/naver', naverRouter);
 app.use('/facebook', facebookRouter);
 
 
@@ -281,8 +281,9 @@ https.createServer(options, app).listen(23703, function(){
   console.log("NAVER Example skill server listening on port 23703!");
 });
 
-naverRouter.post('/', function (req, res) {
+app.post('/naver', function (req, res) {
   console.log(req);
+  res.send("Hello world")
 });
 
 app.listen(23702, function() {
