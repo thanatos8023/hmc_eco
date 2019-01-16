@@ -7,6 +7,7 @@ const querystring = require('querystring');
 const request = require('request');
 const uuid = require('uuid');
 const fs = require('fs');
+const https = require('https');
 
 // 라우터 설정
 const kakaoRouter = express.Router();
@@ -271,6 +272,14 @@ kakaoRouter.post('/', function (req, res) {
 ///////////////////////////
 /////////   naver  //////// 
 ///////////////////////////
+const options = {
+  key: fs.readFileSync('./keys/private.pem'),
+  cert: fs.readFileSync('./keys/public.pem')
+};
+
+https.createServer(options, app).listen(23703, function(){
+  console.log("NAVER Example skill server listening on port 23703!");
+});
 
 naverRouter.post('/', function (req, res) {
   console.log(req);
