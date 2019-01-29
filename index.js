@@ -18,7 +18,7 @@ app.use(logger('dev', {}));
 app.use(bodyParser.json());
 
 app.use('/kakao', kakaoRouter);
-//app.use('/naver', naverRouter);
+app.use('/naver', naverRouter);
 app.use('/facebook', facebookRouter);
 
 
@@ -27,13 +27,17 @@ app.use('/facebook', facebookRouter);
 ///////////////////////////
 
 kakaoRouter.post('/', function (req, res) {
-  var state = req.body.userRequest.user.id;
-  var uuid_state = state + "&" + uuid.v1();
-  var content = req.body.userRequest.utterance;
+  //var state = req.body.userRequest.user.id;
+  //var uuid_state = state + "&" + uuid.v1();
+  //var content = req.body.userRequest.utterance;
   console.log("uuid_state : " + uuid_state)
   console.log("state : " + state);
   console.log("content : " + content);
 
+  var state = req.body.userRequest.user.id;
+  var uuid_state = state + "&" + uuid.v1();
+  var content = req.body.userRequest.utterance;
+  
   var headers = {
     'Content-Type': 'application/json'
   }
@@ -272,25 +276,197 @@ kakaoRouter.post('/', function (req, res) {
 ///////////////////////////
 /////////   naver  //////// 
 ///////////////////////////
-const options = {
-  key: fs.readFileSync('./keys/private.pem'),
-  cert: fs.readFileSync('./keys/public.pem')
+
+var options = {
+   key:fs.readFileSync('key.pem'),
+   cert:fs.readFileSync('cert.pem')
 };
 
-https.createServer(options, app).listen(23703, function(){
-  console.log("NAVER Example skill server listening on port 23703!");
+
+var server = https.createServer(options,app).listen(23703, function(){
+  console.log("Http server listening on port " + 23703);
 });
 
-app.post('/naver', function (req, res) {
-  console.log(req);
-  res.send("Hello world")
-});
+naverRouter.get('/', function(req, res) {
+  console.log("Hello world!!");
+  var state = "1";
+  var uuid_state = state + "&" + "1";
+  var content = "";
 
-app.get('/', function (req, res) {
-  console.log(req);
-  res.send("Hello world");
+
+  var headers = {
+    'Content-Type': 'application/json'
+  }
+
+  var formData = {
+    "user_key": state,
+    "content": content,
+    "type": "text",
+  }
+  
+  console.log("a");
+  request.post({
+    headers: headers,
+    url: "http://192.168.123.237:23701/hmc/message",
+    form: formData,
+  }, function (err, apiResponse, body) {
+	console.log("b");
+	console.log(apiResponse.body);
+    if (err) {
+      console.error(err);
+      res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
+    }
+
+    var apiResponseBody = JSON.parse(apiResponse.body);
+    var responseBody;
+
+    if (apiResponseBody.type == "simpleText") {
+
+    	responseBody = {
+    		    "type": "text",
+    		    "text": apiResponseBody.text
+		}
+    }
+	else if (apiResponseBody.type == "messageButton") {
+		var buttonObj = JSON.parse(apiResponseBody.object1);
+		var actionList = [];
+		var imageList = [];
+		
+		for(var i=0; i<buttonObj.length; i++){
+			actionList.push ({
+		        "type" : "uri",
+				"action": buttonObj[i].action,
+		        "label": buttonObj[i].label,
+		        "uri": buttonObj[i].url,
+		        "text": buttonObj[i].messageText,				
+			});
+		}
+		
+		responseBody = {
+			"type" : "template",
+			"text" : apiResponseBody.text,
+			"template":{
+				"type" : "buttons"
+			},
+			"actions":
+				actionList
+		}
+	}
+    
+	else if (apiResponseBody.type == "image")
+	{
+		var imageObj = JSON.parse(apiResponseBody.object1);
+		responseBody = {
+				"type": "image",
+				"originalContentUrl": imageObj.url
+		}
+	}
+	
+	else if (apiReponseBody.type == "imageButton")
+	{
+		
+		var imageObj = JSOn.parse(apiReponseBody.object1);
+		var buttonObj = JSON.parse(apiResponseBody.object2);
+		var actionList = [];
+		var imageList = [];
+		
+		for(var i=0; i<buttonObj2.length; i++){
+			actionList.push ({
+		        "type" : "uri",
+				"action": buttonObj[i].action,
+		        "label": buttonObj[i].label,
+		        "uri": buttonObj[i].url,
+		        "text": buttonObj[i].messageText,				
+			});
+		}
+		
+		responseBody = {
+			"type" : "template",
+			"template":{
+				"type" : "buttons",
+				"text" : apiReponseBody.text,
+				"thumbanilImageUrl":imageObj,
+			    "imageSize":"cover",
+			},
+			"actions":
+				actionList
+		}
+	}
+    
+	else if (apiReponseBody.type == "quickReply")
+	{
+		var quickObj = JSON.parse(apiReponseBody.object1);
+		var quickList = [];
+		
+		for (var i = 0; i < quickObj.length; i++) {		
+	        quickList.push ({
+	            "type" : "action",
+	            "action" : {
+		           "type":quickObj[i].action,
+		           "label": quickObj[i].label,
+		           "text": quickObj[i].messageText,
+		        }
+	          });
+	        
+		}
+		
+		responseBody = {
+			"quickReply": {
+				  "items": [
+					  quickList,
+				]
+			}
+		}
+	}
+    
+	else if (apiReponseBody.type == "carousel")
+	{
+        var cels = []
+        for (var i = 0; i < apiResponseBody.object1.length; i++) {
+          cels.push({
+            "title": apiResponseBody.object1[i].title,
+            "description": apiResponseBody.object1[i].description,
+            "thumbnailImageUrl": apiResponseBody.object1[i].imageUrl,
+            
+            "actions": [
+              {
+                "action": "message",
+                "label": "",
+                "messageText": apiResponseBody.object1[i].title,
+              }
+            ]
+          });
+        }
+        responseBody = {
+        	"type":"template",
+        	"template" : {
+        		"type" : "carousel",
+        		"columns":[
+        			cels,
+        		]
+        	}
+        }
+	}
+    res.send(_stringify(responseBody));
+  })
 });
 
 app.listen(23702, function() {
 	console.log("Example skill server listening on port 23702!");
 });
+
+//JSON OBJECT를 String 형으로 변환
+function _stringify(_jsonObj) {
+	var jsonObj = _jsonObj;
+	var returnStr = JSON.stringify(jsonObj);
+	if (returnStr) {
+		returnStr = returnStr.replace(/\\"/gi, "\\@");
+		returnStr = returnStr.replace(/"/gi, "");
+		returnStr = returnStr.replace(/\\@/gi, "\"");
+		returnStr = returnStr.replace(/\\r/gi, "");
+		returnStr = returnStr.replace(/\\n/gi, "<br>");
+	} else {
+		returnStr = '';
+	}
+	return returnStr;
+};
