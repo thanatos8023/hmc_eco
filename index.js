@@ -27,17 +27,13 @@ app.use('/facebook', facebookRouter);
 ///////////////////////////
 
 kakaoRouter.post('/', function (req, res) {
-  //var state = req.body.userRequest.user.id;
-  //var uuid_state = state + "&" + uuid.v1();
-  //var content = req.body.userRequest.utterance;
-  console.log("uuid_state : " + uuid_state)
-  console.log("state : " + state);
-  console.log("content : " + content);
-
   var state = req.body.userRequest.user.id;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
-  
+//  console.log("uuid_state : " + uuid_state)
+// console.log("state : " + state);
+//  console.log("content : " + content);
+
   var headers = {
     'Content-Type': 'application/json'
   }
@@ -52,7 +48,8 @@ kakaoRouter.post('/', function (req, res) {
   // POST 방식으로 form 변수로 전달함
   request.post({
     headers: headers,
-    url: "http://192.168.123.237:23701/hmc/message", 
+    //url: "http://192.168.123.237:23701/hmc/message", 
+    url:"http://58.255.115.230:23701/hmc/message",
     form: formData,
   }, function (err, apiResponse, body) {
     if (err) {
@@ -273,182 +270,169 @@ kakaoRouter.post('/', function (req, res) {
   });
 });
 
-///////////////////////////
-/////////   naver  //////// 
-///////////////////////////
+// /////////////////////////
+// /////// naver ////////
+// /////////////////////////
 
 var options = {
-   key:fs.readFileSync('key.pem'),
-   cert:fs.readFileSync('cert.pem')
+	key : fs.readFileSync('key.pem'),
+	cert : fs.readFileSync('cert.pem')
 };
 
-
-var server = https.createServer(options,app).listen(23703, function(){
-  console.log("Http server listening on port " + 23703);
+var server = https.createServer(options, app).listen(23703, function() {
+	console.log("Http server listening on port " + 23703);
 });
 
-naverRouter.get('/', function(req, res) {
-  console.log("Hello world!!");
-  var state = "1";
-  var uuid_state = state + "&" + "1";
-  var content = "";
+naverRouter.get('/',function(req, res) {
+	console.log("Hello world!!");
 
+	// var state = req.body.userRequest.user.id;
+	// var uuid_state = state + "&" + uuid.v1();
+	// var content = req.body.userRequest.utterance;
 
-  var headers = {
-    'Content-Type': 'application/json'
-  }
+	var headers = {
+		'Content-Type' : 'application/json'
+	}
 
-  var formData = {
-    "user_key": state,
-    "content": content,
-    "type": "text",
-  }
-  
-  console.log("a");
-  request.post({
-    headers: headers,
-    url: "http://192.168.123.237:23701/hmc/message",
-    form: formData,
-  }, function (err, apiResponse, body) {
-	console.log("b");
-	console.log(apiResponse.body);
-    if (err) {
-      console.error(err);
-      res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
-    }
-
-    var apiResponseBody = JSON.parse(apiResponse.body);
-    var responseBody;
-
-    if (apiResponseBody.type == "simpleText") {
-
-    	responseBody = {
-    		    "type": "text",
-    		    "text": apiResponseBody.text
-		}
-    }
-	else if (apiResponseBody.type == "messageButton") {
-		var buttonObj = JSON.parse(apiResponseBody.object1);
-		var actionList = [];
-		var imageList = [];
-		
-		for(var i=0; i<buttonObj.length; i++){
-			actionList.push ({
-		        "type" : "uri",
-				"action": buttonObj[i].action,
-		        "label": buttonObj[i].label,
-		        "uri": buttonObj[i].url,
-		        "text": buttonObj[i].messageText,				
-			});
+	var formData = {
+		"user_key" : "1",// state,
+		"content" : "안녕",// content,
+		"type" : "text",
+	}
+	request.post({
+		headers : headers,
+		//url:"http://192.168.123.237:23701/hmc/message",
+		url : "http://58.255.115.230:23701/hmc/message",
+		form : formData,
+	},
+	function(err, apiResponse, body) {
+		if (err) {
+			console.error(err);
+			res.status(500).send("SERVER :: API Server error :: Location : Requesting for api : " + err);
 		}
 		
-		responseBody = {
-			"type" : "template",
-			"text" : apiResponseBody.text,
-			"template":{
-				"type" : "buttons"
-			},
-			"actions":
+		console.log(apiResponse);
+		var apiResponseBody = JSON.parse(apiResponse.body);
+		var responseBody;
+		
+		console.log("API : " + apiResponseBody);
+
+		if (apiResponseBody.type == "simpleText") {
+			responseBody = {
+				"type" : "text",
+				"text" : apiResponseBody.text
+			}
+		} else if (apiResponseBody.type == "messageButton") {
+			var buttonObj = JSON.parse(apiResponseBody.object1);
+			var actionList = [];
+			var imageList = [];
+
+			for (var i = 0; i < buttonObj.length; i++) {
 				actionList
-		}
-	}
-    
-	else if (apiResponseBody.type == "image")
-	{
-		var imageObj = JSON.parse(apiResponseBody.object1);
-		responseBody = {
-				"type": "image",
-				"originalContentUrl": imageObj.url
-		}
-	}
-	
-	else if (apiReponseBody.type == "imageButton")
-	{
-		
-		var imageObj = JSOn.parse(apiReponseBody.object1);
-		var buttonObj = JSON.parse(apiResponseBody.object2);
-		var actionList = [];
-		var imageList = [];
-		
-		for(var i=0; i<buttonObj2.length; i++){
-			actionList.push ({
-		        "type" : "uri",
-				"action": buttonObj[i].action,
-		        "label": buttonObj[i].label,
-		        "uri": buttonObj[i].url,
-		        "text": buttonObj[i].messageText,				
-			});
-		}
-		
-		responseBody = {
-			"type" : "template",
-			"template":{
-				"type" : "buttons",
-				"text" : apiReponseBody.text,
-				"thumbanilImageUrl":imageObj,
-			    "imageSize":"cover",
-			},
-			"actions":
-				actionList
-		}
-	}
-    
-	else if (apiReponseBody.type == "quickReply")
-	{
-		var quickObj = JSON.parse(apiReponseBody.object1);
-		var quickList = [];
-		
-		for (var i = 0; i < quickObj.length; i++) {		
-	        quickList.push ({
-	            "type" : "action",
-	            "action" : {
-		           "type":quickObj[i].action,
-		           "label": quickObj[i].label,
-		           "text": quickObj[i].messageText,
-		        }
-	          });
-	        
-		}
-		
-		responseBody = {
-			"quickReply": {
-				  "items": [
-					  quickList,
-				]
+						.push({
+							"type" : "uri",
+							"action" : "1",
+							"label" : buttonObj[i].label,
+							"uri" : buttonObj[i].url,
+							"text" : buttonObj[i].messageText,
+						});
+			}
+
+			responseBody = {
+				"type" : "template",
+				"text" : apiResponseBody.text,
+				"template" : {
+					"type" : "buttons"
+				},
+				"actions" : actionList
 			}
 		}
-	}
-    
-	else if (apiReponseBody.type == "carousel")
-	{
-        var cels = []
-        for (var i = 0; i < apiResponseBody.object1.length; i++) {
-          cels.push({
-            "title": apiResponseBody.object1[i].title,
-            "description": apiResponseBody.object1[i].description,
-            "thumbnailImageUrl": apiResponseBody.object1[i].imageUrl,
-            
-            "actions": [
-              {
-                "action": "message",
-                "label": "",
-                "messageText": apiResponseBody.object1[i].title,
-              }
-            ]
-          });
-        }
-        responseBody = {
-        	"type":"template",
-        	"template" : {
-        		"type" : "carousel",
-        		"columns":[
-        			cels,
-        		]
-        	}
-        }
-	}
-    res.send(_stringify(responseBody));
-  })
+
+		else if (apiResponseBody.type == "image") {
+			var imageObj = JSON
+					.parse(apiResponseBody.object1);
+			responseBody = {
+				"type" : "image",
+				"originalContentUrl" : imageObj.url
+			}
+		}
+
+		else if (apiReponseBody.type == "imageButton") {
+
+			var imageObj = JSOn.parse(apiReponseBody.object1);
+			var buttonObj = JSON.parse(apiResponseBody.object2);
+			var actionList = [];
+			var imageList = [];
+
+			for (var i = 0; i < buttonObj2.length; i++) {
+				actionList.push({
+					"type" : "uri",
+					"action" : buttonObj[i].action,
+					"label" : buttonObj[i].label,
+					"uri" : buttonObj[i].url,
+					"text" : buttonObj[i].messageText,
+				});
+			}
+
+			responseBody = {
+				"type" : "template",
+				"template" : {
+					"type" : "buttons",
+					"text" : apiReponseBody.text,
+					"thumbanilImageUrl" : imageObj,
+					"imageSize" : "cover",
+				},
+				"actions" : actionList
+			}
+		}
+
+		else if (apiReponseBody.type == "quickReply") {
+			var quickObj = JSON
+					.parse(apiReponseBody.object1);
+			var quickList = [];
+
+			for (var i = 0; i < quickObj.length; i++) {
+				quickList.push({
+					"type" : "action",
+					"action" : {
+						"type" : quickObj[i].action,
+						"label" : quickObj[i].label,
+						"text" : quickObj[i].messageText,
+					}
+				});
+			}
+
+			responseBody = {
+				"quickReply" : {
+					"items" : [ quickList, ]
+				}
+			}
+		}
+
+		else if (apiReponseBody.type == "carousel") {
+			var cels = []
+			for (var i = 0; i < apiResponseBody.object1.length; i++) {
+				cels.push({
+					"title" : apiResponseBody.object1[i].title,
+					"description" : apiResponseBody.object1[i].description,
+					"thumbnailImageUrl" : apiResponseBody.object1[i].imageUrl,
+	
+					"actions" : [ {
+						"action" : "message",
+						"label" : "",
+						"messageText" : apiResponseBody.object1[i].title,
+					} ]
+				});
+			}
+			responseBody = {
+				"type" : "template",
+				"template" : {
+					"type" : "carousel",
+					"columns" : [ cels, ]
+				}
+			}
+		}
+	})
 });
 
 app.listen(23702, function() {
@@ -470,3 +454,5 @@ function _stringify(_jsonObj) {
 	}
 	return returnStr;
 };
+
+
