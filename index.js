@@ -435,9 +435,10 @@ naverRouter.get('/',function(req, res) {
 	})
 });
 
-app.listen(23702, function() {
-	console.log("Example skill server listening on port 23702!");
-});
+
+//app.listen(23702, function() {
+//	console.log("Example skill server listening on port 23702!");
+//});
 
 //JSON OBJECT를 String 형으로 변환
 function _stringify(_jsonObj) {
