@@ -9,6 +9,25 @@ const uuid = require('uuid');
 const fs = require('fs');
 const https = require('https');
 
+const createServer = require('auto-sni');
+
+const lex = require('greenlock-express').create({
+  version: 'v01',
+  configDir: '/etc/letsencrypt',
+  server: 'https://acme-v01.api.letsencrypt.org/directory',
+  approveDomains: (opts, certs, cb) => {
+    if (certs) {
+      opts.domains = ['hmcchatbot.ze.am', 'echo.hmcchatbot.ze.am'];
+    } else {
+      opts.email = 'thanatos8023@gmail.com';
+      opts.agreeTos = true;
+    }
+    cb(null, {options: opts, certs});
+  },
+  renewWithin: 81 * 24 * 60 * 60 * 1000,
+  renewBy: 80 * 24 * 60 * 60 * 1000,
+});
+
 // 라우터 설정
 const kakaoRouter = express.Router();
 const naverRouter = express.Router();
@@ -435,10 +454,12 @@ naverRouter.get('/',function(req, res) {
 	})
 });
 
-
 //app.listen(23702, function() {
 //	console.log("Example skill server listening on port 23702!");
 //});
+
+https.createServer(lex.httpsOptions, lex.middleware(app)).listen(process.env.SSL_PORT || 443);
+http.createServer(lex.middleware(require('redirect-https')())).listen(process.env.PORT || 80);
 
 //JSON OBJECT를 String 형으로 변환
 function _stringify(_jsonObj) {

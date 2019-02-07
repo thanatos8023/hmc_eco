@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "auto-sni": "^2.3.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "greenlock-express": "^2.6.7",
+    "le-acme-core": "^2.1.4",
     "morgan": "^1.9.1",
     "npm": "^6.6.0",
     "request": "^2.88.0"
