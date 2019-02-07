@@ -290,10 +290,10 @@ kakaoRouter.post('/', function (req, res) {
 // /////////////////////////
 
 naverRouter.post('/',function(req, res) {
-  console.log("--------------------------------------- REQUEST -----------------------------------------");
-  console.log(req);
-  console.log("--------------------------------------- REQUEST BODY -----------------------------------------");
-  console.log(req.body);
+  console.log("events[0].source:")
+  console.log(req.body.events[0].source);
+  console.log("events[0].message:")
+  console.log(req.body.events[0].message);
 
   //var eventObj = request.body.events[0];
   //var source = eventObj.source;
