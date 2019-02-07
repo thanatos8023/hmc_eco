@@ -7,26 +7,8 @@ const querystring = require('querystring');
 const request = require('request');
 const uuid = require('uuid');
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
-
-const createServer = require('auto-sni');
-
-const lex = require('greenlock-express').create({
-  version: 'v01',
-  configDir: '/etc/letsencrypt',
-  server: 'https://acme-v01.api.letsencrypt.org/directory',
-  approveDomains: (opts, certs, cb) => {
-    if (certs) {
-      opts.domains = ['hmcchatbot.ze.am', 'echo.hmcchatbot.ze.am'];
-    } else {
-      opts.email = 'thanatos8023@gmail.com';
-      opts.agreeTos = true;
-    }
-    cb(null, {options: opts, certs});
-  },
-  renewWithin: 81 * 24 * 60 * 60 * 1000,
-  renewBy: 80 * 24 * 60 * 60 * 1000,
-});
 
 // 라우터 설정
 const kakaoRouter = express.Router();
@@ -40,6 +22,23 @@ app.use('/kakao', kakaoRouter);
 app.use('/naver', naverRouter);
 app.use('/facebook', facebookRouter);
 
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/echo.hmcchatbot.ze.am/privKey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/echo.hmcchatbot.ze.am/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/echo.hmcchatbot.ze.am/chain.pem', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+}
+
+app.use((req, res) => {
+  res.send('Hello there !')
+});
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
 ///////////////////////////
 /////////   Kakao  //////// 
@@ -49,9 +48,6 @@ kakaoRouter.post('/', function (req, res) {
   var state = req.body.userRequest.user.id;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
-//  console.log("uuid_state : " + uuid_state)
-// console.log("state : " + state);
-//  console.log("content : " + content);
 
   var headers = {
     'Content-Type': 'application/json'
@@ -305,10 +301,6 @@ var server = https.createServer(options, app).listen(23703, function() {
 naverRouter.get('/',function(req, res) {
 	console.log("Hello world!!");
 
-	// var state = req.body.userRequest.user.id;
-	// var uuid_state = state + "&" + uuid.v1();
-	// var content = req.body.userRequest.utterance;
-
 	var headers = {
 		'Content-Type' : 'application/json'
 	}
@@ -454,12 +446,15 @@ naverRouter.get('/',function(req, res) {
 	})
 });
 
-//app.listen(23702, function() {
-//	console.log("Example skill server listening on port 23702!");
-//});
+// https serving on 443 port (global)
 
-https.createServer(lex.httpsOptions, lex.middleware(app)).listen(process.env.SSL_PORT || 443);
-http.createServer(lex.middleware(require('redirect-https')())).listen(process.env.PORT || 80);
+httpServer.listen(80, () => {
+  console.log('HTTP Server running on port 80');
+});
+
+httpsServer.listen(443, () => {
+  console.log('HTTPS Server running on port 443');
+});
 
 //JSON OBJECT를 String 형으로 변환
 function _stringify(_jsonObj) {
