@@ -289,15 +289,6 @@ kakaoRouter.post('/', function (req, res) {
 // /////// naver ////////
 // /////////////////////////
 
-var options = {
-	key : fs.readFileSync('key.pem'),
-	cert : fs.readFileSync('cert.pem')
-};
-
-var server = https.createServer(options, app).listen(23703, function() {
-	console.log("Http server listening on port " + 23703);
-});
-
 naverRouter.get('/',function(req, res) {
 	console.log("Hello world!!");
 
