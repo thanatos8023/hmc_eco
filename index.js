@@ -289,8 +289,14 @@ kakaoRouter.post('/', function (req, res) {
 // /////// naver ////////
 // /////////////////////////
 
-naverRouter.get('/',function(req, res) {
-	console.log("Hello world!!");
+naverRouter.post('/',function(req, res) {
+	console.log("Hello naver!!");
+
+  var eventObj = request.body.events[0];
+  var source = eventObj.source;
+  var message = eventObj.message;
+
+  var CHANNEL_ACCESS_TOKEN = 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=';
 
 	var headers = {
 		'Content-Type' : 'application/json'
@@ -299,7 +305,7 @@ naverRouter.get('/',function(req, res) {
 	var formData = {
 		"user_key" : "1",// state,
 		"content" : "안녕",// content,
-		"type" : "text",
+		"type" : message.test.split('@')[1],
 	}
 	request.post({
 		headers : headers,
