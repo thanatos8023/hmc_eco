@@ -304,9 +304,9 @@ naverRouter.post('/',function(req, res) {
 	}
 
 	var formData = {
-		"user_key" : "1",// state,
-		"content" : "안녕",// content,
-		"type" : message.test.split('@')[1],
+		"user_key" : state,// state,
+		"content" : content,// content,
+		"type" : "text",
 	}
 	request.post({
 		headers : headers,
