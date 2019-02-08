@@ -290,14 +290,12 @@ kakaoRouter.post('/', function (req, res) {
 // /////////////////////////
 
 naverRouter.post('/',function(req, res) {
-  console.log("events[0].source:")
-  console.log(req.body.events[0].source);
-  console.log("events[0].message:")
-  console.log(req.body.events[0].message);
+  var state = req.body.events[0].source.userId;
+  var uuid_state = state + "&" + uuid.v1();
+  var content = req.body.events[0].message.text;
 
-  //var eventObj = request.body.events[0];
-  //var source = eventObj.source;
-  //var message = eventObj.message;
+  console.log("uuid: " + state);
+  console.log("content: " + content);
 
   var CHANNEL_ACCESS_TOKEN = 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=';
 
