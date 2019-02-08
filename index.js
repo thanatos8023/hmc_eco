@@ -36,7 +36,7 @@ const httpsServer = https.createServer(credentials, app);
 /////////   Kakao  //////// 
 ///////////////////////////
 
-kakaoRouter.post('/', function (req, res) {
+kakaoRouter.post('/', bodyParser.json(), function (req, res) {
   var state = req.body.userRequest.user.id;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
