@@ -328,6 +328,8 @@ naverRouter.post('/',function(req, res) {
 			var actionList = [];
 			var imageList = [];
 
+      console.log("messageButton INPUT");
+
 			for (var i = 0; i < buttonObj.length; i++) {
 				actionList
 						.push({
