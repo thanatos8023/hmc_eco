@@ -452,7 +452,7 @@ naverRouter.post('/', line.middleware(config), function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    client.replyMessage(event.replyToken, {
+    client.replyMessage(replyToken, {
       type: 'text',
       text: 'I cannot leave a 1-on-1 chat!',
     });
