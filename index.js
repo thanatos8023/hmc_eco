@@ -452,7 +452,7 @@ naverRouter.post('/', line.middleware(config), function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    client.pushMessage(state, responseBody);
+    client.pushMessage(state, { type: 'text', text: 'hello, world' });
 
     /*
     request.post({
