@@ -49,6 +49,7 @@ kakaoRouter.post('/', function (req, res) {
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
 
+  console.log("KAKAO ROUTER activated");
   console.log("user id: " + state);
   console.log("utterance: " + content);
 
@@ -67,7 +68,7 @@ kakaoRouter.post('/', function (req, res) {
   request.post({
     headers: headers,
     //url: "http://192.168.123.237:23701/hmc/message", 
-    url:"http://58.255.115.230:23701/hmc/message",
+    url:"http://58.255.115.230:23701/hmc/keyboard",
     form: formData,
   }, function (err, apiResponse, body) {
     if (err) {
