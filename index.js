@@ -317,9 +317,7 @@ naverRouter.post('/',function(req, res) {
 		var apiResponseBody = JSON.parse(apiResponse.body);
 		var responseBody;
 		
-		console.log("API : " + apiResponseBody);
-    console.log("Type of apiResponseBody: " + typeof(apiResponseBody));
-    console.log("Type of response: " + apiResponseBody.type);
+		console.log("Type of response: " + apiResponseBody.type);
 
 		if (apiResponseBody.type == "simpleText") {
 			responseBody = {
@@ -344,7 +342,7 @@ naverRouter.post('/',function(req, res) {
 
 				actionList.push(temp);
 
-        console.log("button: " + temp);
+        console.log(temp);
 			}
 
       responseBody = {
