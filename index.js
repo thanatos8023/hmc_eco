@@ -313,7 +313,7 @@ naverRouter.post('/',function(req, res) {
 			res.status(500).send("SERVER :: API Server error :: Location : Requesting for api : " + err);
 		}
 		
-		var apiResponseBody = apiResponse.body;
+		var apiResponseBody = JSON.parse(apiResponse.body);
 		var responseBody;
 		
 		console.log("API : " + apiResponseBody);
