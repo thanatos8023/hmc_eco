@@ -341,14 +341,15 @@ naverRouter.post('/',function(req, res) {
 						});
 			}
 
-			responseBody = {
-				"type" : "template",
-				"text" : apiResponseBody.text,
-				"template" : {
-					"type" : "buttons"
-				},
-				"actions" : actionList
-			}
+      responseBody = {
+        "type": "template",
+        "altText": "This is a buttons template",
+        "template": {
+            "type": "buttons",
+            "text": apiResponseBody.text,
+            "actions": actionList
+        }
+      }
 		}
 
 		else if (apiResponseBody.type == "image") {
