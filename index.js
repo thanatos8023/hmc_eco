@@ -55,11 +55,11 @@ kakaoRouter.post('/', function (req, res) {
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
-  request.post("http://58.255.115.230:23701/hmc/message", {
+  request.post("http://58.255.115.230:23701/hmc/message", {form: {
     "user_key": state,
     "content": content,
     "type": "text",
-  }, function (err, apiResponse, body) {
+  }} , function (err, apiResponse, body) {
     if (err) {
       console.error(err);
       res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
