@@ -317,6 +317,7 @@ naverRouter.post('/',function(req, res) {
 		var responseBody;
 		
 		console.log("API : " + apiResponseBody);
+    console.log("Type of apiResponseBody: " + typeof(apiResponseBody));
     console.log("Type of response: " + apiResponseBody.type);
 
 		if (apiResponseBody.type == "simpleText") {
