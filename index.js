@@ -452,7 +452,7 @@ naverRouter.post('/',function(req, res) {
       },
       json: {
         replyToken: replyToken,
-        messages: responseBody
+        messages: [responseBody]
       }
     }, function(cbErr, cbResponse, cbBody) {
       console.log(cbBody);
