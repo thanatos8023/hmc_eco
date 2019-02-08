@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@line/bot-sdk": "^6.4.0",
     "auto-sni": "^2.3.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
