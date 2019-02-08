@@ -68,7 +68,7 @@ kakaoRouter.post('/', function (req, res) {
   request.post({
     headers: headers,
     //url: "http://192.168.123.237:23701/hmc/message", 
-    url:"http://58.255.115.230:23701/hmc/message",
+    url:"http://58.255.115.230:23701/hmc/keyboard",
     form: formData,
   }, function (err, apiResponse, body) {
     if (err) {
