@@ -281,8 +281,18 @@ kakaoRouter.post('/', function (req, res) {
 // /////////////////////////
 // /////// naver ////////
 // /////////////////////////
+'use strict';
 
-naverRouter.post('/',function(req, res) {
+const line = require('@line/bot-sdk');
+
+const config = {
+  channelAccessToken: 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=',
+  channelSecret: '83e3ba930ab6223e27fa7fa9709396f8'
+}
+
+const client = new line.Client(config);
+
+naverRouter.post('/', line.middleware(config), function(req, res) {
   var state = req.body.events[0].source.userId;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.events[0].message.text;
@@ -440,8 +450,11 @@ naverRouter.post('/',function(req, res) {
 		}
 
     console.log("SERVER :: Naver Echo :: Naver response data");
-    console.log(responseBody.template.actions[0].uri);
+    console.log(responseBody);
 
+    client.pushMessage(state, responseBody);
+
+    /*
     request.post({
       url: "https://api.line.me/v2/bot/message/reply",
       headers: {
@@ -457,6 +470,7 @@ naverRouter.post('/',function(req, res) {
     });
 
     res.sendStatus(200);
+    */
 	});
 });
 
