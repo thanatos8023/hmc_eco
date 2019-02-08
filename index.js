@@ -343,6 +343,8 @@ naverRouter.post('/',function(req, res) {
         temp.uri = buttonObj[i].url;
 
 				actionList.push(temp);
+
+        console.log("button: " + temp);
 			}
 
       responseBody = {
