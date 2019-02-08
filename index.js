@@ -358,7 +358,7 @@ naverRouter.post('/',function(req, res) {
 			}
 		}
 
-		else if (apiReponseBody.type == "imageButton") {
+		else if (apiResponseBody.type == "imageButton") {
 
 			var imageObj = JSOn.parse(apiReponseBody.object1);
 			var buttonObj = JSON.parse(apiResponseBody.object2);
@@ -387,7 +387,7 @@ naverRouter.post('/',function(req, res) {
 			}
 		}
 
-		else if (apiReponseBody.type == "quickReply") {
+		else if (apiResponseBody.type == "quickReply") {
 			var quickObj = JSON
 					.parse(apiReponseBody.object1);
 			var quickList = [];
@@ -410,7 +410,7 @@ naverRouter.post('/',function(req, res) {
 			}
 		}
 
-		else if (apiReponseBody.type == "carousel") {
+		else if (apiResponseBody.type == "carousel") {
 			var cels = []
 			for (var i = 0; i < apiResponseBody.object1.length; i++) {
 				cels.push({
@@ -433,7 +433,12 @@ naverRouter.post('/',function(req, res) {
 				}
 			}
 		}
-	})
+
+    console.log("SERVER :: Naver Echo :: Naver response data");
+    console.log(responseBody.template.outputs);
+
+    res.send(responseBody);
+	});
 });
 
 // https serving on 443 port (global)
