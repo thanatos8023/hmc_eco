@@ -435,7 +435,7 @@ naverRouter.post('/',function(req, res) {
 		}
 
     console.log("SERVER :: Naver Echo :: Naver response data");
-    console.log(responseBody.template.outputs);
+    console.log(responseBody);
 
     res.send(responseBody);
 	});
