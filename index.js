@@ -341,8 +341,6 @@ naverRouter.post('/',function(req, res) {
         temp.uri = buttonObj[i].url;
 
 				actionList.push(temp);
-
-        console.log(temp);
 			}
 
       responseBody = {
@@ -442,7 +440,7 @@ naverRouter.post('/',function(req, res) {
 		}
 
     console.log("SERVER :: Naver Echo :: Naver response data");
-    console.log(responseBody);
+    console.log(responseBody.template.actions[0].uri);
 
     request.post({
       url: "https://api.line.me/v2/bot/message/reply",
@@ -458,7 +456,7 @@ naverRouter.post('/',function(req, res) {
       console.log(cbBody);
     });
 
-    res.send(200);
+    res.sendStatus(200);
 	});
 });
 
