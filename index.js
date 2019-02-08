@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
-const logger = require('morgan');
 const bodyParser = require('body-parser');
-const querystring = require('querystring');
-
 const request = require('request');
 const uuid = require('uuid');
 const fs = require('fs');
@@ -15,7 +12,6 @@ const kakaoRouter = express.Router();
 const naverRouter = express.Router();
 const facebookRouter = express.Router();
 
-app.use(logger('dev', {}));
 app.use(bodyParser.json());
 
 app.use('/kakao', kakaoRouter);
@@ -33,10 +29,6 @@ const credentials = {
   ca: ca
 }
 
-app.use((req, res) => {
-  res.send('Hello there !')
-});
-
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
@@ -49,9 +41,9 @@ kakaoRouter.post('/', function (req, res) {
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
 
-  var headers = {
-    'Content-Type': 'application/json'
-  }
+  //var headers = {
+  //  'Content-Type': 'application/json'
+  //}
 
   var formData = {
     "user_key": state,
@@ -63,15 +55,19 @@ kakaoRouter.post('/', function (req, res) {
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
-  request.post("http://58.255.115.230:23701/hmc/message", formData, function (err, apiResponse, body) {
+  request.post("http://58.255.115.230:23701/hmc/message", {
+    "user_key": state,
+    "content": content,
+    "type": "text",
+  }, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
       res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
     }
 
     // 디버깅을 위해 요청한 body 정보를 콘솔로 표시
-    //console.log("SERVER :: Kakao Eco :: Kakao Request bodyform ::");
-    //console.log(body);
+    console.log("SERVER :: Kakao Eco :: Kakao Request bodyform ::");
+    console.log(body);
 
     // 응답 역시 콘솔로 표시
     var apiResponseBody = JSON.parse(apiResponse.body);
