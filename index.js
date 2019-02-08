@@ -49,6 +49,10 @@ kakaoRouter.post('/', function (req, res) {
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
 
+  console.log("KAKAO ROUTER activated");
+  console.log("user id: " + state);
+  console.log("utterance: " + content);
+
   var headers = {
     'Content-Type': 'application/json'
   }
@@ -306,7 +310,7 @@ naverRouter.post('/',function(req, res) {
 	var formData = {
 		"user_key" : state,// state,
 		"content" : content,// content,
-		"type" : "text",
+		"type" : "text" ,
 	}
 	request.post({
 		headers : headers,
