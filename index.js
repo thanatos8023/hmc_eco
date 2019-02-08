@@ -49,10 +49,6 @@ kakaoRouter.post('/', function (req, res) {
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
 
-  console.log("KAKAO ROUTER activated");
-  console.log("user id: " + state);
-  console.log("utterance: " + content);
-
   var headers = {
     'Content-Type': 'application/json'
   }
@@ -63,14 +59,11 @@ kakaoRouter.post('/', function (req, res) {
     "type": "text",
   }
 
+  console.log(formData)
+
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
-  request.post({
-    headers: headers,
-    //url: "http://192.168.123.237:23701/hmc/message", 
-    url:"http://58.255.115.230:23701/hmc/keyboard",
-    form: formData,
-  }, function (err, apiResponse, body) {
+  request.post("http://58.255.115.230:23701/hmc/message", formData, function (err, apiResponse, body) {
     if (err) {
       console.error(err);
       res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
