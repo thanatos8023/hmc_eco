@@ -328,17 +328,20 @@ naverRouter.post('/',function(req, res) {
 		} else if (apiResponseBody.type == "messageButton") {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
 			var actionList = [];
-			var imageList = [];
 
 			for (var i = 0; i < buttonObj.length; i++) {
-				actionList
-						.push({
-							"type" : "uri",
-							"action" : "1",
-							"label" : buttonObj[i].label,
-							"uri" : buttonObj[i].url,
-							"text" : buttonObj[i].messageText,
-						});
+        var temp = {type: "", label: "", uri: ""};
+
+        if (buttonObj[i].action == "webLink") {
+          temp.type = "uri";
+        } else {
+          temp.type = buttonObj[i].action;
+        }
+
+        temp.label = buttonObj[i].label;
+        temp.uri = buttonObj[i].url;
+
+				actionList.push(temp);
 			}
 
       responseBody = {
