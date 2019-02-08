@@ -12,7 +12,7 @@ const kakaoRouter = express.Router();
 const naverRouter = express.Router();
 const facebookRouter = express.Router();
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 app.use('/kakao', kakaoRouter);
 app.use('/naver', naverRouter);
@@ -452,7 +452,10 @@ naverRouter.post('/', line.middleware(config), function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    client.pushMessage(state, { type: 'text', text: 'hello, world' });
+    client.replyMessage(event.replyToken, {
+      type: 'text',
+      text: 'I cannot leave a 1-on-1 chat!',
+    });
 
     /*
     request.post({
