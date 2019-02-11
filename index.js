@@ -320,6 +320,7 @@ function send2Line (channelAccessToken, replyToken, messages) {
 };
 
 naverRouter.post('/', function(req, res) {
+  /*
   // Test code
   var eventObj = req.body.events[0];
   var source = eventObj.source;
@@ -339,18 +340,21 @@ naverRouter.post('/', function(req, res) {
   }]);
 
   res.sendStatus(200);
+  */
 
-  /*
   // 본 코드 
   var state = req.body.events[0].source.userId;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.events[0].message.text;
 
+  var eventObj = req.body.events[0];
+  var source = eventObj.source;
+  var message = eventObj.message;
+
   console.log("uuid: " + state);
   console.log("content: " + content);
 
   var CHANNEL_ACCESS_TOKEN = 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=';
-  var replyToken = req.body.events[0].replyToken;
 
 	var headers = {
 		'Content-Type' : 'application/json'
@@ -501,29 +505,10 @@ naverRouter.post('/', function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    client.replyMessage(replyToken, {
-      type: 'text',
-      text: 'I cannot leave a 1-on-1 chat!',
-    });
-
-    
-    request.post({
-      url: "https://api.line.me/v2/bot/message/reply",
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN
-      },
-      json: {
-        replyToken: replyToken,
-        messages: [responseBody]
-      }
-    }, function(cbErr, cbResponse, cbBody) {
-      console.log(cbBody);
-    });
+    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [responseBody]);
 
     res.sendStatus(200);
 	});
-  */
 });
 
 // https serving on 443 port (global)
