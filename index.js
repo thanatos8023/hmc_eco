@@ -281,17 +281,6 @@ kakaoRouter.post('/', function (req, res) {
 // /////////////////////////
 // /////// naver ////////
 // /////////////////////////
-'use strict';
-
-const line = require('@line/bot-sdk');
-
-const config = {
-  channelAccessToken: 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=',
-  channelSecret: '83e3ba930ab6223e27fa7fa9709396f8'
-}
-
-const client = new line.Client(config);
-
 function send2Line (channelAccessToken, replyToken, messages) {
   var headers = {
     'Content-type' : 'application/json',
@@ -313,36 +302,13 @@ function send2Line (channelAccessToken, replyToken, messages) {
     if (!error && response.statusCode == 200) {
       console.log(body)
     }
-    else{
+    else{ 
       console.log('requestSender', error);
     }
   });
 };
 
 naverRouter.post('/', function(req, res) {
-  /*
-  // Test code
-  var eventObj = req.body.events[0];
-  var source = eventObj.source;
-  var message = eventObj.message;
-
-  var CHANNEL_ACCESS_TOKEN = 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=';
-
-  // req log
-  console.log('==========================', new Date(), '============================');
-  console.log('[request]', req.body);
-  console.log('[request source]', eventObj.source);
-  console.log('[request message]', eventObj.message);
-
-  send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-    "type": "text",
-    "text": "테스트 메시지 입니다"
-  }]);
-
-  res.sendStatus(200);
-  */
-
-  // 본 코드 
   var state = req.body.events[0].source.userId;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.events[0].message.text;
@@ -384,10 +350,26 @@ naverRouter.post('/', function(req, res) {
 
     // Text only reply
 		if (apiResponseBody.type == "simpleText") {
-			responseBody = {
-				"type" : "text",
-				"text" : apiResponseBody.text
-			}
+			responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type" : "text",
+                  "text" : apiResponseBody.text,
+                  "wrap": true
+                }
+              ]
+            }
+          }
+        }
+      ]
 		} 
 
     // Text with Button reply
@@ -438,66 +420,107 @@ naverRouter.post('/', function(req, res) {
             "body": {
               "type": "box",
               "layout": "vertical",
-              "contents": contentList
+              "contents": contentList,
+              "spacing": "xl"
+            }
+          },
+        }
+      ]
+		}
+
+    // Image only reply
+		else if (apiResponseBody.type == "image") {
+			var imageObj = JSON.parse(apiResponseBody.object1);
+			responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "image",
+                  "url": imageObj.imageUrl,
+                  "aspectMode": "fit"
+                }
+              ],
+              "spacing": "xl"
             }
           }
         }
       ]
-
-      /*
-      responseBody = {
-        "type": "template",
-        "altText": "This is a buttons template",
-        "template": {
-            "type": "buttons",
-            "text": apiResponseBody.text,
-            "actions": actionList
-        }
-      }
-      */
 		}
 
-		else if (apiResponseBody.type == "image") {
-			var imageObj = JSON
-					.parse(apiResponseBody.object1);
-			responseBody = {
-				"type" : "image",
-				"originalContentUrl" : imageObj.url
-			}
-		}
-
+    // Image with Button reply
 		else if (apiResponseBody.type == "imageButton") {
-
-			var imageObj = JSOn.parse(apiReponseBody.object1);
+			var imageObj = JSON.parse(apiReponseBody.object1);
 			var buttonObj = JSON.parse(apiResponseBody.object2);
-			var actionList = [];
-			var imageList = [];
+			var contentList = [
+        {
+          "type": "image",
+          "url": imageObj.imageUrl,
+          "aspectMode": "fit"
+        }
+      ];
 
-			for (var i = 0; i < buttonObj2.length; i++) {
-				actionList.push({
-					"type" : "uri",
-					"action" : buttonObj[i].action,
-					"label" : buttonObj[i].label,
-					"uri" : buttonObj[i].url,
-					"text" : buttonObj[i].messageText,
-				});
-			}
+			for (var i = 0; i < buttonObj.length; i++) {
+        var temp;
 
-			responseBody = {
-				"type" : "template",
-				"template" : {
-					"type" : "buttons",
-					"text" : apiReponseBody.text,
-					"thumbanilImageUrl" : imageObj,
-					"imageSize" : "cover",
-				},
-				"actions" : actionList
-			}
+        if (buttonObj[i].action == "webLink") {
+          // Case of web link
+          temp = {
+            "type": "button",
+            "style": "primary",
+            "action": {
+              "type": "uri",
+              "label": buttonObj[i].label,
+              "uri": buttonObj[i].url
+            }
+          }
+        } else {
+          // Case of return message
+          temp = {
+            "type": "message",
+            "style": "primary",
+            "action": {
+              "type": "message",
+              "label": buttonObj[i].label,
+              "text": buttonObj[i].messageText
+            }
+          }
+        }
+
+        contentList.push(temp)
+      }
+
+			responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "bubble",
+            "hero": {
+              "type": "image",
+              "url": imageObj.imageUrl,
+              "aspectMode": "fit"
+            },
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": contentList,
+              "spacing": "xl"
+            }
+          }
+        }
+      ]
 		}
 
+    // Text with Quick replies reply
 		else if (apiResponseBody.type == "quickReply") {
-			var quickObj = JSON
-					.parse(apiReponseBody.object1);
+			var quickObj = JSON.parse(apiReponseBody.object1);
 			var quickList = [];
 
 			for (var i = 0; i < quickObj.length; i++) {
@@ -511,35 +534,90 @@ naverRouter.post('/', function(req, res) {
 				});
 			}
 
-			responseBody = {
-				"quickReply" : {
-					"items" : [ quickList, ]
-				}
-			}
+			responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": apiResponseBody.text,
+                  "quickReply": {
+                    "items": quickList
+                  }
+                }
+              ],
+              "spacing": "xl"
+            }
+          }
+        }
+      ]
 		}
 
+    // Carousel reply
 		else if (apiResponseBody.type == "carousel") {
 			var cels = []
 			for (var i = 0; i < apiResponseBody.object1.length; i++) {
-				cels.push({
-					"title" : apiResponseBody.object1[i].title,
-					"description" : apiResponseBody.object1[i].description,
-					"thumbnailImageUrl" : apiResponseBody.object1[i].imageUrl,
-	
-					"actions" : [ {
-						"action" : "message",
-						"label" : "",
-						"messageText" : apiResponseBody.object1[i].title,
-					} ]
-				});
+        cels.push({
+          "type": "bubble",
+          "hero": {
+            "type": "image",
+            "size": "full",
+            "aspectMode": "cover",
+            "url": apiResponseBody.object1[i].imageUrl
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "xl",
+            "contents": [
+              {
+                "type": "text"
+                "text": apiResponseBody.object1[i].title,
+                "wrap": true,
+                "weight": "bold",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": apiResponseBody.object1[i].description,
+                "wrap": true,
+                "size": "sm"
+              }
+            ]
+          },
+          "footer": {
+            "type": "button",
+            "style": "primary",
+            "action": {
+              "type": "message",
+              "label": "여기가 좋겠다",
+              "text": apiResponseBody.object1[i].title
+            }
+          }
+        });
 			}
-			responseBody = {
-				"type" : "template",
-				"template" : {
-					"type" : "carousel",
-					"columns" : [ cels, ]
-				}
-			}
+
+      responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "carousel",
+            "contents": 
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": cels
+            }
+          }
+        }
+      ];
 		}
 
     console.log("SERVER :: Naver Echo :: Naver response data");
@@ -550,6 +628,78 @@ naverRouter.post('/', function(req, res) {
     res.sendStatus(200);
 	});
 });
+
+// /////////////////////////
+// /////// facebook ////////
+// /////////////////////////
+
+function handleMessage (sender_psid, recieved_message) {
+  let response;
+  if (recieved_message.text) {
+    response = {
+      "text": `You sent the message: "${recieved_message.text}". Now send me an image!`
+    }
+  }
+  callSendAPI(sender_psid, response);
+}
+
+function callSendAPI (sender_psid, response) {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
+
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": {"access_token": PAGE_ACCESS_TOKEN},
+    "method": "POST",
+    "json": request_body
+  }, function (err, res, body) {
+    if (!err) {
+      console.log('message sent!');
+    }
+    else {
+      console.error("Unable to send message " + err)
+    }
+  });
+}
+
+const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne1n4KrtD0drAQvYYW9vFZAVEAHNW5ZClvdEJvEPefkz9Crt8LvaJ0GQ7ZCYUSAPn2cbNziFEZC0B1vPiYGK8lH9Rtb6jrx9jQJ8ZBDClvb8MBi8aHcwugen3qgZDZD';
+const VERIFY_TOKEN = "VERIFY_TOKEN";
+
+facebookRouter.get('/', function (req, res) {
+  console.log(req.query['hub.verify token']);
+  if (req.query['hub.verify token'] === VERIFY_TOKEN) {
+    return res.send(req.query['hub.challenge'])
+  }
+  res.send("wrong token");
+});
+
+facebookRouter.post('/', function (req, res) {
+  let body = req.body;
+  if (body.object === 'page') {
+    body.entry.forEach(function (entry) {
+      let webhook_event = entry.messaging[0];
+      console.log(webhook_event);
+
+      let sender_psid = webhook_event.sender.id;
+      console.log('sender PSID: ' + sender_psid);
+
+      if (webhook_event.message) {
+        handlePostback(sender_psid, webhook_event.message);
+      }
+      else if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback);
+      }
+    });
+    res.send("EVENT_RECEIVED");
+  }
+  else {
+    res.sendStatus(400);
+  }
+})
 
 // https serving on 443 port (global)
 
