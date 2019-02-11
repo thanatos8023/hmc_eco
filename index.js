@@ -12,7 +12,7 @@ const kakaoRouter = express.Router();
 const naverRouter = express.Router();
 const facebookRouter = express.Router();
 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 app.use('/kakao', kakaoRouter);
 app.use('/naver', naverRouter);
@@ -36,7 +36,7 @@ const httpsServer = https.createServer(credentials, app);
 /////////   Kakao  //////// 
 ///////////////////////////
 
-kakaoRouter.post('/', bodyParser.json(), function (req, res) {
+kakaoRouter.post('/', function (req, res) {
   var state = req.body.userRequest.user.id;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.userRequest.utterance;
@@ -292,7 +292,22 @@ const config = {
 
 const client = new line.Client(config);
 
-naverRouter.post('/', line.middleware(config), function(req, res) {
+naverRouter.post('/', function(req, res) {
+  // Test code
+  var eventObj = request.body.events[0];
+  var source = eventObj.source;
+  var message = eventObj.message;
+
+  // req log
+  console.log('==========================', new Date(), '============================');
+  console.log('[request]', request.body);
+  console.log('[request source]', eventObj.source);
+  console.log('[request message]', eventObj.message);
+
+  res.sendStatus(200);
+
+  /*
+  // 본 코드 
   var state = req.body.events[0].source.userId;
   var uuid_state = state + "&" + uuid.v1();
   var content = req.body.events[0].message.text;
@@ -457,7 +472,7 @@ naverRouter.post('/', line.middleware(config), function(req, res) {
       text: 'I cannot leave a 1-on-1 chat!',
     });
 
-    /*
+    
     request.post({
       url: "https://api.line.me/v2/bot/message/reply",
       headers: {
@@ -473,8 +488,8 @@ naverRouter.post('/', line.middleware(config), function(req, res) {
     });
 
     res.sendStatus(200);
-    */
 	});
+  */
 });
 
 // https serving on 443 port (global)
