@@ -425,7 +425,7 @@ naverRouter.post('/', function(req, res) {
                   "style": "primary",
                   "action": {
                     "type": "uri",
-                    "label": "Primary style button"
+                    "label": "Primary style button",
                     "uri": "https://www.google.co.kr"
                   }
                 },
@@ -434,7 +434,7 @@ naverRouter.post('/', function(req, res) {
                   "style": "secondary",
                   "action": {
                     "type": "uri",
-                    "label": "Secondary style button"
+                    "label": "Secondary style button",
                     "uri": "https://www.naver.com"
                   }
                 }
