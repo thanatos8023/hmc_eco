@@ -665,7 +665,10 @@ const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne
 const VERIFY_TOKEN = "VERIFY_TOKEN";
 
 facebookRouter.get('/', function (req, res) {
-  console.log(req.query);
+  console.log(req.query['hub.verify_token']);
+  if (PAGE_ACCESS_TOKEN === req.query['hub.verify_token']) {
+    res.send(req.query['hub.challenge']);
+  }
   res.send("wrong token");
 });
 
