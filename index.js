@@ -505,7 +505,29 @@ naverRouter.post('/', function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [responseBody]);
+    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [
+      {
+        "type": "flex",
+        "altText": "This is a Flex Message",
+        "contents": {
+          "type": "bubble",
+          "body": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "Hello,"
+              },
+              {
+                "type": "text",
+                "text": "World!"
+              }
+            ]
+          }
+        }
+      }
+    ]);
 
     res.sendStatus(200);
 	});
