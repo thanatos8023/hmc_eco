@@ -382,14 +382,22 @@ naverRouter.post('/', function(req, res) {
 		
 		console.log("Type of response: " + apiResponseBody.type);
 
+    // Text only reply
 		if (apiResponseBody.type == "simpleText") {
 			responseBody = {
 				"type" : "text",
 				"text" : apiResponseBody.text
 			}
-		} else if (apiResponseBody.type == "messageButton") {
+		} 
+
+    // Text with Button reply
+    else if (apiResponseBody.type == "messageButton") {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
-			var contentList = [];
+			var contentList = [{
+        "type": "text",
+        "text": apiResponseBody.text,
+        "wrap": true
+      }];
 
 			for (var i = 0; i < buttonObj.length; i++) {
         var temp;
@@ -402,7 +410,7 @@ naverRouter.post('/', function(req, res) {
             "action": {
               "type": "uri",
               "label": buttonObj[i].label,
-              "uri": "https://www.google.co.kr"
+              "uri": buttonObj[i].url
             }
           }
         } else {
@@ -427,12 +435,6 @@ naverRouter.post('/', function(req, res) {
           "altText": "This is a Flex Message",
           "contents": {
             "type": "bubble",
-            "hero": {
-              "type": "text",
-              "text": apiResponseBody.text,
-              "flex": 0,
-              "maxLines": 10
-            },
             "body": {
               "type": "box",
               "layout": "vertical",
