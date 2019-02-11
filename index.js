@@ -609,12 +609,7 @@ naverRouter.post('/', function(req, res) {
           "altText": "This is a Flex Message",
           "contents": {
             "type": "carousel",
-            "contents": 
-            "body": {
-              "type": "box",
-              "layout": "vertical",
-              "contents": cels
-            }
+            "contents": cels
           }
         }
       ];
