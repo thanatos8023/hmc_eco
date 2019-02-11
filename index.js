@@ -391,7 +391,8 @@ naverRouter.post('/', function(req, res) {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
 			var contentList = [{
         "type": "text",
-        "text": apiResponseBody.text
+        "text": apiResponseBody.text,
+        "size": "5xl"
       }];
 
 			for (var i = 0; i < buttonObj.length; i++) {
@@ -399,6 +400,8 @@ naverRouter.post('/', function(req, res) {
 
         if (buttonObj[i].action == "webLink") {
           // Case of web link
+          console.log("webLink: ", buttonObj[i].url);
+          console.log("webLink length: ", buttonObj[i].url.length);
           temp = {
             "type": "button",
             "style": "primary",
