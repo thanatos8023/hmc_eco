@@ -389,21 +389,39 @@ naverRouter.post('/', function(req, res) {
 			}
 		} else if (apiResponseBody.type == "messageButton") {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
-			var actionList = [];
+			var contentList = [{
+        "type": "text",
+        "text": apiResponseBody.text
+      }];
 
 			for (var i = 0; i < buttonObj.length; i++) {
-        var temp = {type: "", label: "", uri: ""};
+        var temp;
 
         if (buttonObj[i].action == "webLink") {
-          temp.type = "uri";
+          // Case of web link
+          temp = {
+            "type": "button",
+            "primary",
+            "action": {
+              "type": "uri",
+              "label": buttonObj[i].label,
+              "uri": buttonObj[i].url
+            }
+          }
         } else {
-          temp.type = buttonObj[i].action;
+          // Case of return message
+          temp = {
+            "type": "message",
+            "primary",
+            "action": {
+              "type": "message",
+              "label": buttonObj[i].label,
+              "text": buttonObj[i].messageText
+            }
+          }
         }
 
-        temp.label = buttonObj[i].label;
-        temp.uri = buttonObj[i].url;
-
-				actionList.push(temp);
+        contentList.push(temp)
 			}
 
       responseBody = [
@@ -415,30 +433,7 @@ naverRouter.post('/', function(req, res) {
             "body": {
               "type": "box",
               "layout": "vertical",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Hello,"
-                },
-                {
-                  "type": "button",
-                  "style": "primary",
-                  "action": {
-                    "type": "uri",
-                    "label": "Primary style button",
-                    "uri": "https://www.google.co.kr"
-                  }
-                },
-                {
-                  "type": "button",
-                  "style": "secondary",
-                  "action": {
-                    "type": "uri",
-                    "label": "Secondary style button",
-                    "uri": "https://www.naver.com"
-                  }
-                }
-              ]
+              "contents": contentList
             }
           }
         }
