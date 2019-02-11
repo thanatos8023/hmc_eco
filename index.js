@@ -401,7 +401,7 @@ naverRouter.post('/', function(req, res) {
           // Case of web link
           temp = {
             "type": "button",
-            "primary",
+            "style": "primary",
             "action": {
               "type": "uri",
               "label": buttonObj[i].label,
@@ -412,7 +412,7 @@ naverRouter.post('/', function(req, res) {
           // Case of return message
           temp = {
             "type": "message",
-            "primary",
+            "style": "primary",
             "action": {
               "type": "message",
               "label": buttonObj[i].label,
