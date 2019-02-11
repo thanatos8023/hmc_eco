@@ -292,17 +292,86 @@ const config = {
 
 const client = new line.Client(config);
 
+function send2Line (channelAccessToken, replyToken, messages) {
+  var headers = {
+    'Content-type' : 'application/json',
+    'Authorization' : 'Bearer ' + channelAccessToken
+  };
+
+  var options = {
+    url: 'https://api.line.me/v2/bot/message/reply',
+    method: 'POST',
+    headers: headers,
+    json: {
+      replyToken : replyToken,
+      messages : messages
+    }
+  };
+
+  request(options, function (error, response, body) {
+    console.log('response', response.statusCode);
+    if (!error && response.statusCode == 200) {
+      console.log(body)
+    }
+    else{
+      console.log('requestSender', error);
+    }
+  });
+};
+
 naverRouter.post('/', function(req, res) {
   // Test code
   var eventObj = req.body.events[0];
   var source = eventObj.source;
   var message = eventObj.message;
 
+  var CHANNEL_ACCESS_TOKEN = 'j1cV8rXKOBx3pjW6ny7b+4UhevfLEAXn4kPs3JvkjI8R6wcgNUyB6Jq08Rr6rCCunGyKj2FNu8ols26PWe809ZX4MNNc20lqPxnk7vo4xRRc6ZBWu/2xs2VW1iD3afqTBpnteURvXz+pVnvbS3PJMgdB04t89/1O/w1cDnyilFU=';
+
   // req log
   console.log('==========================', new Date(), '============================');
   console.log('[request]', req.body);
   console.log('[request source]', eventObj.source);
   console.log('[request message]', eventObj.message);
+
+
+  if(message.type = "text" && message.text.indexOf("@nxt9233h") != -1){
+    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+      "type": "text",
+      "text": "기본"
+    }]);
+  }
+  else if(message.type = "text" && /^@.+/g.test(message.text)){
+    var cmd = message.text.split('@')[1];
+    console.log('[command]', cmd);
+
+    if(typeof cmd !== "undefined" && cmd != ""){
+      if(cmd == "h" || cmd == "help"){
+        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+          "type": "text",
+          "text": "도움말"
+        }]);
+      }
+      else if(/^r\[.+\]/g.test(cmd)){
+        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+          "type": "text",
+          "text": message.text
+        }]);
+      }
+      else if(cmd == "food" || cmd == "밥집"){
+        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+          "type": "text",
+          "text": "옛다 밥이다"
+        }]);
+      }
+      else if(cmd == "contact" || cmd == "ct"){
+        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+          "type": "text",
+          "text": "싫어"
+        }]);
+      }
+    }
+  }
+
 
   res.sendStatus(200);
 
