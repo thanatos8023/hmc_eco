@@ -333,45 +333,10 @@ naverRouter.post('/', function(req, res) {
   console.log('[request source]', eventObj.source);
   console.log('[request message]', eventObj.message);
 
-
-  if(message.type = "text" && message.text.indexOf("@nxt9233h") != -1){
-    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-      "type": "text",
-      "text": "기본"
-    }]);
-  }
-  else if(message.type = "text" && /^@.+/g.test(message.text)){
-    var cmd = message.text.split('@')[1];
-    console.log('[command]', cmd);
-
-    if(typeof cmd !== "undefined" && cmd != ""){
-      if(cmd == "h" || cmd == "help"){
-        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-          "type": "text",
-          "text": "도움말"
-        }]);
-      }
-      else if(/^r\[.+\]/g.test(cmd)){
-        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-          "type": "text",
-          "text": message.text
-        }]);
-      }
-      else if(cmd == "food" || cmd == "밥집"){
-        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-          "type": "text",
-          "text": "옛다 밥이다"
-        }]);
-      }
-      else if(cmd == "contact" || cmd == "ct"){
-        send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
-          "type": "text",
-          "text": "싫어"
-        }]);
-      }
-    }
-  }
-
+  send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [{
+    "type": "text",
+    "text": "테스트 메시지 입니다"
+  }]);
 
   res.sendStatus(200);
 
