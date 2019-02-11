@@ -616,7 +616,7 @@ naverRouter.post('/', function(req, res) {
 		}
 
     console.log("SERVER :: Naver Echo :: Naver response data");
-    console.log(responseBody);
+    console.log(responseBody.contents);
 
     send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, responseBody);
 
@@ -628,11 +628,19 @@ naverRouter.post('/', function(req, res) {
 // /////// facebook ////////
 // /////////////////////////
 
-function handleMessage (sender_psid, recieved_message) {
+function handleMessage (sender_psid, recieved_message, message_type) {
   let response;
   if (recieved_message.text) {
-    response = {
-      "text": `You sent the message: "${recieved_message.text}". Now send me an image!`
+    // Text only
+    if (message_type === "simpleText") {
+      response = {
+        "text": `You sent the message: "${recieved_message.text}". Now send me an image!`
+      }
+    }
+    
+    // Message Button
+    if (message_type === "messageButton") {
+
     }
   }
   callSendAPI(sender_psid, response);
@@ -683,10 +691,12 @@ facebookRouter.post('/', function (req, res) {
       console.log('sender PSID: ' + sender_psid);
 
       if (webhook_event.message) {
-        handlePostback(sender_psid, webhook_event.message);
+        console.log(webhook_event.message);
+        handleMessage(sender_psid, webhook_event.message);
       }
       else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+        console.log(webhook_event.postback);
+        handleMessage(sender_psid, webhook_event.postback);
       }
     });
     res.send("EVENT_RECEIVED");
