@@ -666,9 +666,6 @@ const VERIFY_TOKEN = "VERIFY_TOKEN";
 
 facebookRouter.get('/', function (req, res) {
   console.log(req.query);
-  if (req.query.hub.verify token === VERIFY_TOKEN) {
-    return res.send(req.query.hub.challenge)
-  }
   res.send("wrong token");
 });
 
