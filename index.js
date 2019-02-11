@@ -664,7 +664,7 @@ function callSendAPI (sender_psid, response) {
 const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne1n4KrtD0drAQvYYW9vFZAVEAHNW5ZClvdEJvEPefkz9Crt8LvaJ0GQ7ZCYUSAPn2cbNziFEZC0B1vPiYGK8lH9Rtb6jrx9jQJ8ZBDClvb8MBi8aHcwugen3qgZDZD';
 const VERIFY_TOKEN = "VERIFY_TOKEN";
 
-facebookRouter.get('/', function (req, res) {
+facebookRouter.get('/webhook', function (req, res) {
   console.log(req.query['hub.verify token']);
   if (req.query['hub.verify token'] === VERIFY_TOKEN) {
     return res.send(req.query['hub.challenge'])
@@ -672,7 +672,7 @@ facebookRouter.get('/', function (req, res) {
   res.send("wrong token");
 });
 
-facebookRouter.post('/', function (req, res) {
+facebookRouter.post('/webhook', function (req, res) {
   let body = req.body;
   if (body.object === 'page') {
     body.entry.forEach(function (entry) {
