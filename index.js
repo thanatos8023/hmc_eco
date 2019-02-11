@@ -577,7 +577,7 @@ naverRouter.post('/', function(req, res) {
             "spacing": "xl",
             "contents": [
               {
-                "type": "text"
+                "type": "text",
                 "text": apiResponseBody.object1[i].title,
                 "wrap": true,
                 "weight": "bold",
