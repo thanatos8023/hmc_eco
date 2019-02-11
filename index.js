@@ -294,13 +294,13 @@ const client = new line.Client(config);
 
 naverRouter.post('/', function(req, res) {
   // Test code
-  var eventObj = request.body.events[0];
+  var eventObj = req.body.events[0];
   var source = eventObj.source;
   var message = eventObj.message;
 
   // req log
   console.log('==========================', new Date(), '============================');
-  console.log('[request]', request.body);
+  console.log('[request]', req.body);
   console.log('[request source]', eventObj.source);
   console.log('[request message]', eventObj.message);
 
