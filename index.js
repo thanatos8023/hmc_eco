@@ -393,7 +393,7 @@ naverRouter.post('/', function(req, res) {
         "type": "text",
         "text": apiResponseBody.text,
         "flex": 0,
-        "maxLines": 0
+        "maxLines": 10
       }];
 
 			for (var i = 0; i < buttonObj.length; i++) {
