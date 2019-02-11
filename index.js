@@ -406,6 +406,45 @@ naverRouter.post('/', function(req, res) {
 				actionList.push(temp);
 			}
 
+      responseBody = [
+        {
+          "type": "flex",
+          "altText": "This is a Flex Message",
+          "contents": {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Hello,"
+                },
+                {
+                  "type": "button",
+                  "style": "primary",
+                  "action": {
+                    "type": uri,
+                    "label": "Primary style button"
+                    "uri": "https://www.google.co.kr"
+                  }
+                },
+                {
+                  "type": "button",
+                  "style": "secondary",
+                  "action": {
+                    "type": uri,
+                    "label": "Secondary style button"
+                    "uri": "https://www.naver.com"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+
+      /*
       responseBody = {
         "type": "template",
         "altText": "This is a buttons template",
@@ -415,6 +454,7 @@ naverRouter.post('/', function(req, res) {
             "actions": actionList
         }
       }
+      */
 		}
 
 		else if (apiResponseBody.type == "image") {
@@ -505,29 +545,7 @@ naverRouter.post('/', function(req, res) {
     console.log("SERVER :: Naver Echo :: Naver response data");
     console.log(responseBody);
 
-    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, [
-      {
-        "type": "flex",
-        "altText": "This is a Flex Message",
-        "contents": {
-          "type": "bubble",
-          "body": {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "Hello,"
-              },
-              {
-                "type": "text",
-                "text": "World!"
-              }
-            ]
-          }
-        }
-      }
-    ]);
+    send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, responseBody);
 
     res.sendStatus(200);
 	});
