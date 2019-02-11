@@ -405,7 +405,7 @@ naverRouter.post('/', function(req, res) {
             "action": {
               "type": "uri",
               "label": buttonObj[i].label,
-              "uri": buttonObj[i].url
+              "uri": "https://www.google.co.kr"
             }
           }
         } else {
