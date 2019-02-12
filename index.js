@@ -836,6 +836,17 @@ function handleMessage (sender_psid, recieved_message) {
                     "payload": "신화목장"
                   }
                 ]
+              },
+              {
+                "title": "육질 연구소",
+                "subtitle": "화성시",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "여기가 좋겠다",
+                    "payload": "육질 연구소"
+                  }
+                ]
               }
             ]
           }
