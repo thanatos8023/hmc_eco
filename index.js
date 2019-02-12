@@ -816,7 +816,7 @@ function handleMessage (sender_psid, recieved_message) {
           //    "title": "여기가 좋겠다",
           //    "payload": apiResponseBody.object1.title
           //  }
-          ]
+          //]
         });
       }
 
