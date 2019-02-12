@@ -370,7 +370,8 @@ naverRouter.post('/', function(req, res) {
           }
         }
       ]
-
+    }
+    
     // Text with Button reply
     else if (apiResponseBody.type == "messageButton") {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
