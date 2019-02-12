@@ -805,7 +805,7 @@ function handleMessage (sender_psid, recieved_message) {
 
     // Carousel reply
     else if (apiResponseBody.type == "carousel") {
-      var cels = []
+      var cels = [];
       for (var i = 0; i < apiResponseBody.object1.length; i++) {
         cels.push({
           "title": apiResponseBody.object1[i].title,
@@ -814,7 +814,7 @@ function handleMessage (sender_psid, recieved_message) {
             {
               "type": "postback",
               "title": "여기가 좋겠다",
-              "payload": apiResponseBody.object1.title
+              "payload": apiResponseBody.object1[i].title
             }
           ]
         });
@@ -825,30 +825,7 @@ function handleMessage (sender_psid, recieved_message) {
           "type": "template",
           "payload": {
             "template_type": "generic",
-            "elements": [
-              {
-                "title": "신화목장",
-                "subtitle": "화성시",
-                "buttons": [
-                  {
-                    "type": "postback",
-                    "title": "여기가 좋겠다",
-                    "payload": "신화목장"
-                  }
-                ]
-              },
-              {
-                "title": "육질 연구소",
-                "subtitle": "화성시",
-                "buttons": [
-                  {
-                    "type": "postback",
-                    "title": "여기가 좋겠다",
-                    "payload": "육질 연구소"
-                  }
-                ]
-              }
-            ]
+            "elements": cels
           }
         }
       }
