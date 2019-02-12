@@ -756,8 +756,8 @@ function handleMessage (sender_psid, recieved_message) {
             "elements": [
               {
                 "image_url": imageObj.imageUrl
-              },
-              "buttons": buttonList
+                "buttons": buttonList  
+              }
             ]
           }
         }
