@@ -371,7 +371,7 @@ naverRouter.post('/', function(req, res) {
         }
       ]
     }
-    
+
     // Text with Button reply
     else if (apiResponseBody.type == "messageButton") {
 			var buttonObj = JSON.parse(apiResponseBody.object1);
@@ -634,6 +634,8 @@ naverRouter.post('/', function(req, res) {
 // /////////////////////////
 
 function handleMessage (sender_psid, recieved_message) {
+  console.log(recieved_message);
+
   var state = sender_psid;
   var uuid_state = state + "&" + uuid.v1();
   var content = recieved_message.text;
@@ -688,7 +690,7 @@ function handleMessage (sender_psid, recieved_message) {
           // Case of web link
           temp = {
             "type": "web_url",
-            "url": buttonObj[i].url,
+            "url": "https://www.google.co.kr",
             "title": buttonObj[i].label
           }
         } else {
@@ -869,17 +871,17 @@ facebookRouter.post('/', function (req, res) {
   if (body.object === 'page') {
     body.entry.forEach(function (entry) {
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      //console.log(webhook_event);
 
       let sender_psid = webhook_event.sender.id;
-      console.log('sender PSID: ' + sender_psid);
+      //console.log('sender PSID: ' + sender_psid);
 
       if (webhook_event.message) {
-        console.log(webhook_event.message);
+        //console.log(webhook_event.message);
         handleMessage(sender_psid, webhook_event.message);
       }
       else if (webhook_event.postback) {
-        console.log(webhook_event.postback);
+        //console.log(webhook_event.postback);
         handleMessage(sender_psid, webhook_event.postback);
       }
     });
