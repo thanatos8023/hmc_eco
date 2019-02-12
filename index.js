@@ -496,11 +496,11 @@ naverRouter.post('/', function(req, res) {
           "altText": "This is a Flex Message",
           "contents": {
             "type": "bubble",
-            "hero": {
-              "type": "image",
-              "url": imageObj.imageUrl,
-              "aspectMode": "fit"
-            },
+            //"hero": {
+            //  "type": "image",
+            //  "url": imageUrl,
+            //  "aspectMode": "fit"
+            //},
             "body": {
               "type": "box",
               "layout": "vertical",
