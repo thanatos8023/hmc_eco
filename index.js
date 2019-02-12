@@ -344,7 +344,9 @@ naverRouter.post('/', function(req, res) {
 		var apiResponseBody = JSON.parse(apiResponse.body);
 		var responseBody;
 		
-		console.log("Type of response: " + apiResponseBody.type);
+    console.log("==========================API response==============================");
+    console.log(apiResponseBody);
+    console.log("====================================================================");
 
     // Text only reply
 		if (apiResponseBody.type == "simpleText") {
