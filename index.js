@@ -527,7 +527,7 @@ naverRouter.post('/', function(req, res) {
 				quickList.push({
 					"type" : "action",
 					"action" : {
-						"type" : "messege",
+						"type" : "message",
 						"label" : quickObj[i].label,
 						"text" : quickObj[i].messageText,
 					}
@@ -619,7 +619,7 @@ naverRouter.post('/', function(req, res) {
       ];
 		}
 
-    console.log("\n**************************Reply form******************************");
+    console.log("\n*********************Line Reply form******************************");
     console.log(responseBody);
     console.log("******************************************************************\n");
 
@@ -665,7 +665,9 @@ function handleMessage (sender_psid, recieved_message) {
     var apiResponseBody = JSON.parse(apiResponse.body);
     var responseBody;
     
-    console.log("Type of response: " + apiResponseBody.type);
+    console.log("\n==========================API response==============================");
+    console.log(apiResponseBody);
+    console.log("====================================================================\n");
 
     // Text only reply
     if (apiResponseBody.type == "simpleText") {
@@ -819,6 +821,10 @@ function handleMessage (sender_psid, recieved_message) {
 
     console.log("SERVER :: Facebook Echo :: Facebook response data");
     console.log(responseBody);
+
+    console.log("\n*********************Messenger Reply form******************************");
+    console.log(responseBody);
+    console.log("***********************************************************************\n");
 
     callSendAPI(sender_psid, responseBody);
   });
