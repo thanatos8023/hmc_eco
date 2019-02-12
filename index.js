@@ -107,10 +107,6 @@ kakaoRouter.post('/', function (req, res) {
         });
       }
 
-      console.log("SERVER :: DEBUG BUTTONS :: ");
-      console.log(buttonList);
-      console.log("::::::::::::::::::::::::::::::::::::");
-
       responseBody = {
         "version": "2.0",
         "template": {
@@ -725,7 +721,13 @@ function handleMessage (sender_psid, recieved_message) {
 
     // Image only reply
     else if (apiResponseBody.type == "image") {
-      var imageObj = JSON.parse(apiResponseBody.object1);
+      var imageUrl = apiResponseBody.object1;
+
+      responseBody = {
+        "text": "현재 이미지를 표시할 수 없습니다. ("+imageUrl+")"
+      }
+
+      /*
       responseBody = {
         "attachment": {
           "type": "image",
@@ -734,6 +736,7 @@ function handleMessage (sender_psid, recieved_message) {
           }
         }
       }
+      */
     }
 
     // Image with Button reply
@@ -823,7 +826,77 @@ function handleMessage (sender_psid, recieved_message) {
           "type": "template",
           "payload": {
             "template_type": "generic",
-            "elements": cels
+            "elements": [
+               {
+                "title":"Welcome!",
+                "image_url":"https://petersfancybrownhats.com/company_image.png",
+                "subtitle":"We have the right hat for everyone.",
+                "default_action": {
+                  "type": "web_url",
+                  "url": "https://petersfancybrownhats.com/view?item=103",
+                  "messenger_extensions": false,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://petersfancybrownhats.com/"
+                },
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersfancybrownhats.com",
+                    "title":"View Website"
+                  },{
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                  }              
+                ]      
+              },
+              {
+                "title":"Welcome!",
+                "image_url":"https://petersfancybrownhats.com/company_image.png",
+                "subtitle":"We have the right hat for everyone.",
+                "default_action": {
+                  "type": "web_url",
+                  "url": "https://petersfancybrownhats.com/view?item=103",
+                  "messenger_extensions": false,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://petersfancybrownhats.com/"
+                },
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersfancybrownhats.com",
+                    "title":"View Website"
+                  },{
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                  }              
+                ]      
+              },
+              {
+                "title":"Welcome!",
+                "image_url":"https://petersfancybrownhats.com/company_image.png",
+                "subtitle":"We have the right hat for everyone.",
+                "default_action": {
+                  "type": "web_url",
+                  "url": "https://petersfancybrownhats.com/view?item=103",
+                  "messenger_extensions": false,
+                  "webview_height_ratio": "tall",
+                  "fallback_url": "https://petersfancybrownhats.com/"
+                },
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersfancybrownhats.com",
+                    "title":"View Website"
+                  },{
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                  }              
+                ]      
+              }
+            ]
           }
         }
       }
