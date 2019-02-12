@@ -344,9 +344,9 @@ naverRouter.post('/', function(req, res) {
 		var apiResponseBody = JSON.parse(apiResponse.body);
 		var responseBody;
 		
-    console.log("==========================API response==============================");
+    console.log("\n==========================API response==============================");
     console.log(apiResponseBody);
-    console.log("====================================================================");
+    console.log("====================================================================\n");
 
     // Text only reply
 		if (apiResponseBody.type == "simpleText") {
@@ -398,7 +398,7 @@ naverRouter.post('/', function(req, res) {
         } else {
           // Case of return message
           temp = {
-            "type": "message",
+            "type": "button",
             "style": "primary",
             "action": {
               "type": "message",
@@ -609,9 +609,9 @@ naverRouter.post('/', function(req, res) {
       ];
 		}
 
-    console.log("==========================Reply form==============================");
+    console.log("\n**************************Reply form******************************");
     console.log(responseBody);
-    console.log("==================================================================");
+    console.log("******************************************************************\n");
 
     send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, responseBody);
 
