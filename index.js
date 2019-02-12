@@ -815,7 +815,7 @@ function handleMessage (sender_psid, recieved_message) {
     console.log("SERVER :: Facebook Echo :: Facebook response data");
     console.log(responseBody);
 
-    callSendAPI(sender_psid, responsebody);  
+    callSendAPI(sender_psid, responseBody);  
 
     res.sendStatus(200);
   });
