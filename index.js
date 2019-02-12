@@ -771,7 +771,9 @@ function handleMessage (sender_psid, recieved_message) {
             "template_type": "generic",
             "elements": [
               {
+                "title": "",
                 "image_url": imageUrl,
+                "subtitle": apiResponseBody.text,
                 "buttons": buttonList  
               }
             ]
