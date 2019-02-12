@@ -350,7 +350,6 @@ naverRouter.post('/', function(req, res) {
 
     // Text only reply
 		if (apiResponseBody.type == "simpleText") {
-      /*
 			responseBody = [
         {
           "type": "flex",
@@ -371,39 +370,6 @@ naverRouter.post('/', function(req, res) {
           }
         }
       ]
-      */
-      responseBody = [{
-        "type": "text", // ①
-        "text": "Select your favorite food category or send me your location!",
-        "quickReply": { // ②
-          "items": [
-            {
-              "type": "action", // ③
-              "action": {
-                "type": "message",
-                "label": "Sushi",
-                "text": "Sushi"
-              }
-            },
-            {
-              "type": "action",
-              "action": {
-                "type": "message",
-                "label": "Tempura",
-                "text": "Tempura"
-              }
-            },
-            {
-              "type": "action", // ④
-              "action": {
-                "type": "location",
-                "label": "Send location"
-              }
-            }
-          ]
-        }
-      }]
-		}
 
     // Text with Button reply
     else if (apiResponseBody.type == "messageButton") {
@@ -567,13 +533,13 @@ naverRouter.post('/', function(req, res) {
 				});
 			}
 
-      responseBody = {
+      responseBody = [{
         "type": "text",
         "text": apiResponseBody.text,
         "quickReply": {
           "items": quickList
         }
-      }
+      }]
 
       /*
 			responseBody = [
