@@ -65,14 +65,11 @@ kakaoRouter.post('/', function (req, res) {
       res.status(500).send("SERVER :: API Server error :: Location : Requesting for api");
     }
 
-    // 디버깅을 위해 요청한 body 정보를 콘솔로 표시
-    console.log("SERVER :: Kakao Eco :: Kakao Request bodyform ::");
-    console.log(body);
-
     // 응답 역시 콘솔로 표시
     var apiResponseBody = JSON.parse(apiResponse.body);
-    console.log("SERVER :: Kakao Eco :: API response data");
+    console.log("\n==========================API response==============================");
     console.log(apiResponseBody);
+    console.log("====================================================================\n");
 
     var responseBody;
 
@@ -265,8 +262,9 @@ kakaoRouter.post('/', function (req, res) {
       }
     }
 
-    console.log("SERVER :: Kakao Eco :: Kakao response data");
+    console.log("\n********************PlusFriend Reply form******************************");
     console.log(responseBody.template.outputs);
+    console.log("***********************************************************************\n");
 
     res.send(responseBody);
   });
@@ -439,7 +437,7 @@ naverRouter.post('/', function(req, res) {
               "contents": [
                 {
                   "type": "text",
-                  "text": "현재 이미지를 제공할 수 없습니다." + imageUrl,
+                  "text": "현재 이미지를 제공할 수 없습니다. (" + imageUrl + ")",
                   "wrap": true
                 }
               ],
@@ -452,12 +450,12 @@ naverRouter.post('/', function(req, res) {
 
     // Image with Button reply
 		else if (apiResponseBody.type == "imageButton") {
-			var imageUrl = apiReponseBody.object1;
+			var imageUrl = apiResponseBody.object1;
 			var buttonObj = JSON.parse(apiResponseBody.object2);
 			var contentList = [
         {
           "type": "text",
-          "url": "현재 이미지를 제공할 수 없습니다. " + imageUrl,
+          "text": apiResponseBody.text,
           "wrap": true
         }
       ];
@@ -897,7 +895,7 @@ facebookRouter.post('/', function (req, res) {
   else {
     res.sendStatus(400);
   }
-})
+});
 
 // https serving on 443 port (global)
 
