@@ -430,7 +430,7 @@ naverRouter.post('/', function(req, res) {
 
     // Image only reply
 		else if (apiResponseBody.type == "image") {
-			var imageObj = JSON.parse(apiResponseBody.object1);
+			var imageUrl = apiResponseBody.object1;
 			responseBody = [
         {
           "type": "flex",
@@ -443,7 +443,7 @@ naverRouter.post('/', function(req, res) {
               "contents": [
                 {
                   "type": "text",
-                  "text": "현재 이미지를 제공할 수 없습니다." + imageObj.imageUrl,
+                  "text": "현재 이미지를 제공할 수 없습니다." + imageUrl,
                   "wrap": true
                 }
               ],
