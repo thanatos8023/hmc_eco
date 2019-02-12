@@ -696,7 +696,7 @@ function handleMessage (sender_psid, recieved_message) {
           // Case of web link
           temp = {
             "type": "web_url",
-            "url": "https://www.google.co.kr",
+            "url": buttonObj[i].url,
             "title": buttonObj[i].label
           }
         } else {
