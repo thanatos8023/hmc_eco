@@ -738,7 +738,7 @@ function handleMessage (sender_psid, recieved_message) {
 
     // Image with Button reply
     else if (apiResponseBody.type == "imageButton") {
-      var imageObj = apiResponseBody.object1;
+      var imageUrl = apiResponseBody.object1;
       var buttonObj = JSON.parse(apiResponseBody.object2);
       var buttonList = [];
 
@@ -771,7 +771,7 @@ function handleMessage (sender_psid, recieved_message) {
             "template_type": "generic",
             "elements": [
               {
-                "image_url": imageObj.imageUrl,
+                "image_url": imageUrl,
                 "buttons": buttonList  
               }
             ]
@@ -827,9 +827,6 @@ function handleMessage (sender_psid, recieved_message) {
         }
       }
     }
-
-    console.log("SERVER :: Facebook Echo :: Facebook response data");
-    console.log(responseBody);
 
     console.log("\n*********************Messenger Reply form******************************");
     console.log(responseBody);
