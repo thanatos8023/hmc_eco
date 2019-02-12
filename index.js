@@ -712,11 +712,11 @@ function handleMessage (sender_psid, recieved_message) {
       }
 
       responseBody = {
-        "text": apiResponseBody.text,
         "attachment": {
           "type": "template",
           "payload": {
             "template_type": "button",
+            "text": apiResponseBody.text,
             "buttons": buttonList
           }
         }
