@@ -609,8 +609,9 @@ naverRouter.post('/', function(req, res) {
       ];
 		}
 
-    console.log("SERVER :: Naver Echo :: Naver response data");
-    console.log(responseBody.contents);
+    console.log("==========================Reply form==============================");
+    console.log(responseBody);
+    console.log("==================================================================");
 
     send2Line(CHANNEL_ACCESS_TOKEN, eventObj.replyToken, responseBody);
 
