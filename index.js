@@ -559,7 +559,7 @@ naverRouter.post('/', function(req, res) {
 
     // Carousel reply
 		else if (apiResponseBody.type == "carousel") {
-			var cels = []
+			var cels = [];
 			for (var i = 0; i < apiResponseBody.object1.length; i++) {
         cels.push({
           "type": "bubble",
@@ -580,14 +580,7 @@ naverRouter.post('/', function(req, res) {
                 "text": apiResponseBody.object1[i].description,
                 "wrap": true,
                 "size": "sm"
-              }
-            ]
-          },
-          "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "sm",
-            "contents": [
+              },
               {
                 "type": "button",
                 "style": "primary",
