@@ -755,7 +755,7 @@ function handleMessage (sender_psid, recieved_message) {
             "template_type": "generic",
             "elements": [
               {
-                "image_url": imageObj.imageUrl
+                "image_url": imageObj.imageUrl,
                 "buttons": buttonList  
               }
             ]
