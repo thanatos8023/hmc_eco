@@ -634,11 +634,17 @@ naverRouter.post('/', function(req, res) {
 // /////////////////////////
 
 function handleMessage (sender_psid, recieved_message) {
-  console.log(recieved_message);
+  //console.log(recieved_message);
 
   var state = sender_psid;
   var uuid_state = state + "&" + uuid.v1();
-  var content = recieved_message.text;
+  var content;
+
+  if (recieved_message.text) {
+    content = recieved_message.text;
+  } else {
+    content = recieved_message.payload;
+  }
 
   console.log("uuid: " + state);
   console.log("content: " + content);
