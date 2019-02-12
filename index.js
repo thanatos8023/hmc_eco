@@ -158,8 +158,6 @@ kakaoRouter.post('/', function (req, res) {
 
     }
     // 4. 바로가기 연결 
-    // 카카오톡에서만 확인된 기능
-    // 네이버, 페이스북에서는 테스트가 필요함
     else if (apiResponseBody.type == "quickReply") {
       var quickObj = JSON.parse(apiResponseBody.object1)
       var quickList = [];
@@ -609,7 +607,84 @@ naverRouter.post('/', function(req, res) {
           "altText": "This is a Flex Message",
           "contents": {
             "type": "carousel",
-            "contents": cels
+            "contents": [
+              {
+                "type": "bubble",
+                "hero": {
+                  "type": "image",
+                  "size": "full",
+                  "aspectMode": "cover",
+                  "url": "http://58.225.115.230:23701/maps/Food1.png"
+                },
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "spacing": "xl",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "나인핑거스 수제 햄버거",
+                      "wrap": true,
+                      "weight": "bold",
+                      "size": "xl"
+                    },
+                    {
+                      "type": "text",
+                      "text": "경기 화성시 남양리 2073-6 101호",
+                      "wrap": true,
+                      "size": "sm"
+                    }
+                  ]
+                },
+                "footer": {
+                  "type": "button",
+                  "style": "primary",
+                  "action": {
+                    "type": "message",
+                    "label": "여기가 좋겠다",
+                    "text": "나인핑거스 수제 햄버거"
+                  }
+                }
+              },
+              {
+                "type": "bubble",
+                "hero": {
+                  "type": "image",
+                  "size": "full",
+                  "aspectMode": "cover",
+                  "url": "http://58.225.115.230:23701/maps/Food2.png"
+                },
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "spacing": "xl",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "송탄 최네집 부대찌개",
+                      "wrap": true,
+                      "weight": "bold",
+                      "size": "xl"
+                    },
+                    {
+                      "type": "text",
+                      "text": "경기도 화성시 신남동 112-2번지",
+                      "wrap": true,
+                      "size": "sm"
+                    }
+                  ]
+                },
+                "footer": {
+                  "type": "button",
+                  "style": "primary",
+                  "action": {
+                    "type": "message",
+                    "label": "여기가 좋겠다",
+                    "text": "송탄 최네집 부대찌개"
+                  }
+                }
+              }
+            ]
           }
         }
       ];
