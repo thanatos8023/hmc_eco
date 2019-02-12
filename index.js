@@ -738,7 +738,7 @@ function handleMessage (sender_psid, recieved_message) {
 
     // Image with Button reply
     else if (apiResponseBody.type == "imageButton") {
-      var imageObj = JSON.parse(apiReponseBody.object1);
+      var imageObj = apiResponseBody.object1;
       var buttonObj = JSON.parse(apiResponseBody.object2);
 
       for (var i = 0; i < buttonObj.length; i++) {
