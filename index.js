@@ -712,11 +712,11 @@ function handleMessage (sender_psid, recieved_message) {
       }
 
       responseBody = {
+        "text": apiResponseBody.text,
         "attachment": {
           "type": "template",
           "payload": {
             "template_type": "button",
-            "text": apiResponseBody.text,
             "buttons": buttonList
           }
         }
@@ -783,7 +783,7 @@ function handleMessage (sender_psid, recieved_message) {
 
     // Text with Quick replies reply
     else if (apiResponseBody.type == "quickReply") {
-      var quickObj = JSON.parse(apiReponseBody.object1);
+      var quickObj = JSON.parse(apiResponseBody.object1);
       var quickList = [];
 
       for (var i = 0; i < quickObj.length; i++) {
