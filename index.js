@@ -740,7 +740,7 @@ function handleMessage (sender_psid, recieved_message) {
     else if (apiResponseBody.type == "imageButton") {
       var imageObj = apiResponseBody.object1;
       var buttonObj = JSON.parse(apiResponseBody.object2);
-      var buttonList;
+      var buttonList = [];
 
       for (var i = 0; i < buttonObj.length; i++) {
         var temp;
