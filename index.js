@@ -379,7 +379,6 @@ naverRouter.post('/', function(req, res) {
           "items": [
             {
               "type": "action", // ③
-              "imageUrl": "https://example.com/sushi.png",
               "action": {
                 "type": "message",
                 "label": "Sushi",
@@ -388,7 +387,6 @@ naverRouter.post('/', function(req, res) {
             },
             {
               "type": "action",
-              "imageUrl": "https://example.com/tempura.png",
               "action": {
                 "type": "message",
                 "label": "Tempura",
