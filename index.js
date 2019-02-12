@@ -456,13 +456,13 @@ naverRouter.post('/', function(req, res) {
 
     // Image with Button reply
 		else if (apiResponseBody.type == "imageButton") {
-			var imageObj = JSON.parse(apiReponseBody.object1);
+			var imageUrl = apiReponseBody.object1;
 			var buttonObj = JSON.parse(apiResponseBody.object2);
 			var contentList = [
         {
-          "type": "image",
-          "url": imageObj.imageUrl,
-          "aspectMode": "fit"
+          "type": "text",
+          "url": "현재 이미지를 제공할 수 없습니다. " + imageUrl,
+          "wrap": true
         }
       ];
 
@@ -483,7 +483,7 @@ naverRouter.post('/', function(req, res) {
         } else {
           // Case of return message
           temp = {
-            "type": "message",
+            "type": "button",
             "style": "primary",
             "action": {
               "type": "message",
@@ -520,7 +520,7 @@ naverRouter.post('/', function(req, res) {
 
     // Text with Quick replies reply
 		else if (apiResponseBody.type == "quickReply") {
-			var quickObj = JSON.parse(apiReponseBody.object1);
+			var quickObj = JSON.parse(apiResponseBody.object1);
 			var quickList = [];
 
 			for (var i = 0; i < quickObj.length; i++) {
