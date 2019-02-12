@@ -628,22 +628,197 @@ naverRouter.post('/', function(req, res) {
 // /////// facebook ////////
 // /////////////////////////
 
-function handleMessage (sender_psid, recieved_message, message_type) {
-  let response;
-  if (recieved_message.text) {
-    // Text only
-    if (message_type === "simpleText") {
-      response = {
-        "text": `You sent the message: "${recieved_message.text}". Now send me an image!`
-      }
+function handleMessage (sender_psid, recieved_message) {
+  var state = sender_psid;
+  var uuid_state = state + "&" + uuid.v1();
+  var content = recieved_message.text;
+
+  console.log("uuid: " + state);
+  console.log("content: " + content);
+
+  var headers = {
+    'Content-Type' : 'application/json'
+  }
+
+  var formData = {
+    "user_key" : state,// state,
+    "content" : content,// content,
+    "type" : "text" ,
+  }
+  request.post({
+    headers : headers,
+    //url:"http://192.168.123.237:23701/hmc/message",
+    url : "http://58.225.115.230:23701/hmc/message",
+    form : formData,
+  },
+  function(err, apiResponse, body) {
+    if (err) {
+      console.error(err);
+      res.status(500).send("SERVER :: API Server error :: Location : Requesting for api : " + err);
     }
     
-    // Message Button
-    if (message_type === "messageButton") {
+    var apiResponseBody = JSON.parse(apiResponse.body);
+    var responseBody;
+    
+    console.log("Type of response: " + apiResponseBody.type);
 
+    // Text only reply
+    if (apiResponseBody.type == "simpleText") {
+      responseBody = {
+        "text": apiResponseBody.text
+      }
+    } 
+
+    // Text with Button reply
+    else if (apiResponseBody.type == "messageButton") {
+      var buttonObj = JSON.parse(apiResponseBody.object1);
+      var buttonList = [];
+
+      for (var i = 0; i < buttonObj.length; i++) {
+        var temp;
+
+        if (buttonObj[i].action == "webLink") {
+          // Case of web link
+          temp = {
+            "type": "web_url",
+            "url": buttonObj[i].url,
+            "title": buttonObj[i].label
+          }
+        } else {
+          // Case of return message
+          temp = {
+            "type": "postback",
+            "title": buttonObj[i].label,
+            "payload": buttonObj[i].messageText
+          }
+        }
+
+        buttonList.push(temp)
+      }
+
+      responseBody = {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "button",
+            "text": apiResponseBody.text,
+            "buttons": buttonList
+          }
+        }
+      }
     }
-  }
-  callSendAPI(sender_psid, response);
+
+    // Image only reply
+    else if (apiResponseBody.type == "image") {
+      var imageObj = JSON.parse(apiResponseBody.object1);
+      responseBody = {
+        "attachment": {
+          "type": "image",
+          "payload": {
+            "url": imageObj.imageUrl
+          }
+        }
+      }
+    }
+
+    // Image with Button reply
+    else if (apiResponseBody.type == "imageButton") {
+      var imageObj = JSON.parse(apiReponseBody.object1);
+      var buttonObj = JSON.parse(apiResponseBody.object2);
+
+      for (var i = 0; i < buttonObj.length; i++) {
+        var temp;
+
+        if (buttonObj[i].action == "webLink") {
+          // Case of web link
+          temp = {
+            "type": "web_url",
+            "url": buttonObj[i].url,
+            "title": buttonObj[i].label
+          }
+        } else {
+          // Case of return message
+          temp = {
+            "type": "postback",
+            "title": buttonObj[i].label,
+            "payload": buttonObj[i].messageText
+          }
+        }
+
+        buttonList.push(temp)
+      }
+
+      responseBody = {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [
+              {
+                "image_url": imageObj.imageUrl
+              },
+              "buttons": buttonList
+            ]
+          }
+        }
+      }
+    }
+
+    // Text with Quick replies reply
+    else if (apiResponseBody.type == "quickReply") {
+      var quickObj = JSON.parse(apiReponseBody.object1);
+      var quickList = [];
+
+      for (var i = 0; i < quickObj.length; i++) {
+        quickList.push({
+          "content_type": "text",
+          "title" : quickObj[i].label,
+          "payload": quickObj[i].messageText
+        });
+      }
+
+      responseBody = {
+        "text": apiResponseBody.text,
+        "quick_replies": quickList
+      }
+    }
+
+    // Carousel reply
+    else if (apiResponseBody.type == "carousel") {
+      var cels = []
+      for (var i = 0; i < apiResponseBody.object1.length; i++) {
+        cels.push({
+          "title": apiResponseBody.object1[i].title,
+          "image_url": apiResponseBody.object1[i].imageUrl,
+          "subtitle": apiResponseBody.object1[i].description,
+          "buttons": [
+            {
+              "type": "postback",
+              "title": "여기가 좋겠다",
+              "payload": apiResponseBody.object1.title
+            }
+          ]
+        });
+      }
+
+      responseBody = {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": cels
+          }
+        }
+      }
+    }
+
+    console.log("SERVER :: Facebook Echo :: Facebook response data");
+    console.log(responseBody);
+
+    callSendAPI(sender_psid, responsebody);  
+
+    res.sendStatus(200);
+  });
 }
 
 function callSendAPI (sender_psid, response) {
