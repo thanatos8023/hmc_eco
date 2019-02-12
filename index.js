@@ -527,13 +527,22 @@ naverRouter.post('/', function(req, res) {
 				quickList.push({
 					"type" : "action",
 					"action" : {
-						"type" : quickObj[i].action,
+						"type" : "messege",
 						"label" : quickObj[i].label,
 						"text" : quickObj[i].messageText,
 					}
 				});
 			}
 
+      responseBody = {
+        "type": "text",
+        "text": apiResponseBody.text,
+        "quickReply": {
+          "items": quickList
+        }
+      }
+
+      /*
 			responseBody = [
         {
           "type": "flex",
@@ -557,6 +566,7 @@ naverRouter.post('/', function(req, res) {
           }
         }
       ]
+      */
 		}
 
     // Carousel reply
