@@ -440,9 +440,9 @@ naverRouter.post('/', function(req, res) {
               "layout": "vertical",
               "contents": [
                 {
-                  "type": "image",
-                  "url": imageObj.imageUrl,
-                  "aspectMode": "fit"
+                  "type": "text",
+                  "text": "현재 이미지를 제공할 수 없습니다." + imageObj.imageUrl,
+                  "wrap": true
                 }
               ],
               "spacing": "xl"
