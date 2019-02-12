@@ -827,27 +827,15 @@ function handleMessage (sender_psid, recieved_message) {
             "template_type": "generic",
             "elements": [
               {
-                "title":"Welcome!",
-                "image_url":"https://petersfancybrownhats.com/company_image.png",
-                "subtitle":"We have the right hat for everyone.",
-                "default_action": {
-                  "type": "web_url",
-                  "url": "https://petersfancybrownhats.com/view?item=103",
-                  "messenger_extensions": false,
-                  "webview_height_ratio": "tall",
-                  "fallback_url": "https://petersfancybrownhats.com/"
-                },
-                "buttons":[
+                "title": "신화목장",
+                "subtitle": "화성시",
+                "buttons": [
                   {
-                    "type":"web_url",
-                    "url":"https://petersfancybrownhats.com",
-                    "title":"View Website"
-                  },{
-                    "type":"postback",
-                    "title":"Start Chatting",
-                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                  }              
-                ]      
+                    "type": "postback",
+                    "title": "여기가 좋겠다",
+                    "payload": "신화목장"
+                  }
+                ]
               }
             ]
           }
