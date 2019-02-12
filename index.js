@@ -372,7 +372,7 @@ naverRouter.post('/', function(req, res) {
         }
       ]
       */
-      {
+      responseBody = [{
         "type": "text", // ①
         "text": "Select your favorite food category or send me your location!",
         "quickReply": { // ②
@@ -404,8 +404,8 @@ naverRouter.post('/', function(req, res) {
             }
           ]
         }
-      }
-		} 
+      }]
+		}
 
     // Text with Button reply
     else if (apiResponseBody.type == "messageButton") {
