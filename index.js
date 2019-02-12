@@ -806,7 +806,7 @@ function handleMessage (sender_psid, recieved_message) {
     // Carousel reply
     else if (apiResponseBody.type == "carousel") {
       var cels = []
-      for (var i = 0; i < apiResponseBody.object1.length; i++) {
+      for (var i = 0; i < 4; i++) {
         cels.push({
           "title": apiResponseBody.object1[i].title,
           "subtitle": apiResponseBody.object1[i].description,
