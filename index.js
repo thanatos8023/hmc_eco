@@ -535,32 +535,6 @@ naverRouter.post('/', function(req, res) {
           "items": quickList
         }
       }]
-
-      /*
-			responseBody = [
-        {
-          "type": "flex",
-          "altText": "This is a Flex Message",
-          "contents": {
-            "type": "bubble",
-            "body": {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": apiResponseBody.text,
-                  "quickReply": {
-                    "items": quickList
-                  }
-                }
-              ],
-              "spacing": "xl"
-            }
-          }
-        }
-      ]
-      */
 		}
 
     // Carousel reply
@@ -860,8 +834,8 @@ function callSendAPI (sender_psid, response) {
   });
 }
 
-//const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne1n4KrtD0drAQvYYW9vFZAVEAHNW5ZClvdEJvEPefkz9Crt8LvaJ0GQ7ZCYUSAPn2cbNziFEZC0B1vPiYGK8lH9Rtb6jrx9jQJ8ZBDClvb8MBi8aHcwugen3qgZDZD';
-const PAGE_ACCESS_TOKEN = 'EAAHuvRvN99UBAI36JACect6DcUvFatxXKyviEfnbMqy80XSHSJNqpeJYFpfqwLVFCFiqALveG4gh7ZCN2NI9dRHNGLSexfX9TYTZBd6Xg0ZC5EEpwZC8SicyReTEq1LjRWf0LIPWQQVK7Sn1m22bY3Ngfxte6LKXgeIYi4RghQZDZD'
+const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne1n4KrtD0drAQvYYW9vFZAVEAHNW5ZClvdEJvEPefkz9Crt8LvaJ0GQ7ZCYUSAPn2cbNziFEZC0B1vPiYGK8lH9Rtb6jrx9jQJ8ZBDClvb8MBi8aHcwugen3qgZDZD';
+//const PAGE_ACCESS_TOKEN = 'EAAHuvRvN99UBAI36JACect6DcUvFatxXKyviEfnbMqy80XSHSJNqpeJYFpfqwLVFCFiqALveG4gh7ZCN2NI9dRHNGLSexfX9TYTZBd6Xg0ZC5EEpwZC8SicyReTEq1LjRWf0LIPWQQVK7Sn1m22bY3Ngfxte6LKXgeIYi4RghQZDZD'
 const VERIFY_TOKEN = "VERIFY_TOKEN";
 
 facebookRouter.get('/', function (req, res) {
