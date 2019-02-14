@@ -846,6 +846,11 @@ facebookRouter.get('/', function (req, res) {
   res.send("wrong token");
 });
 
+facebookRouter.get('/url', function (req, res) {
+  console.log(req.query);
+  res.send(req.query.url);
+});
+
 facebookRouter.post('/', function (req, res) {
   let body = req.body;
   if (body.object === 'page') {
