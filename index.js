@@ -852,7 +852,7 @@ facebookRouter.get('/url', function (req, res) {
   if (url.indexOf("fbclid") > 0) {
     url = url.slice(0, url.indexOf("fbclid") - 1);
   }  
-  res.send(url);
+  res.redirect(url);
 });
 
 facebookRouter.post('/', function (req, res) {
