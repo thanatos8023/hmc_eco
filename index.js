@@ -848,7 +848,11 @@ facebookRouter.get('/', function (req, res) {
 
 facebookRouter.get('/url', function (req, res) {
   console.log(req.query);
-  res.send(req.query.url);
+  var url;
+  if (req.query.url.indexOf("fbclid") > 0) {
+    url = req.query.url.slice(0, req.query.url.indexOf("fbclid") - 1);
+  }  
+  res.send(url);
 });
 
 facebookRouter.post('/', function (req, res) {
