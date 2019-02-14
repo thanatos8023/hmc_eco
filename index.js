@@ -664,7 +664,7 @@ function handleMessage (sender_psid, recieved_message) {
           // Case of web link
           temp = {
             "type": "web_url",
-            "url": buttonObj[i].url,
+            "url": "https://echo.hmcchatbot.ze.am/facebook/url?url=" + buttonObj[i].url,
             "title": buttonObj[i].label
           }
         } else {
@@ -724,7 +724,7 @@ function handleMessage (sender_psid, recieved_message) {
           // Case of web link
           temp = {
             "type": "web_url",
-            "url": buttonObj[i].url,
+            "url": "https://echo.hmcchatbot.ze.am/facebook/url?url=" + buttonObj[i].url,
             "title": buttonObj[i].label
           }
         } else {
