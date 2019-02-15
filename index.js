@@ -835,7 +835,10 @@ function callSendAPI (sender_psid, response) {
 }
 
 facebookRouter.get('/privacy', function (req, res) {
-  res.render('HMC+챗봇+처리방침.html');
+  fs.readFile('./view/HMC+챗봇+처리방침.html', function (err, data) {
+    if (err) {throw err};
+    res.send(data)
+  });
 });
 
 const PAGE_ACCESS_TOKEN = 'EAALh6iqMeHoBAJH5scsmKvWBHZB2KY8ZBvNh1uSgQqJnCcga0cne1n4KrtD0drAQvYYW9vFZAVEAHNW5ZClvdEJvEPefkz9Crt8LvaJ0GQ7ZCYUSAPn2cbNziFEZC0B1vPiYGK8lH9Rtb6jrx9jQJ8ZBDClvb8MBi8aHcwugen3qgZDZD';
