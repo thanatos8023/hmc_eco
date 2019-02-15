@@ -850,8 +850,8 @@ facebookRouter.get('/', function (req, res) {
 facebookRouter.get('/url', function (req, res) {
   console.log(req.query);
   var url = req.query.url;
-  if (url.indexOf("fbclid") > 0) {
-    url = url.slice(0, url.indexOf("fbclid") - 1);
+  if (url.indexOf("stg.kr-ccapi") > 0) {
+    url = 'https://stg.kr-ccapi.hyundai.com/api/v1/user/oauth2/authorize?client_id=03f251b4-75ca-4042-bbc1-c8375a767a82&redirect_uri=http://58.225.115.230:23701/hmc/oauth2url&response_type=code&state=' + req.query.state;
   }  
   res.redirect(url);
 });
