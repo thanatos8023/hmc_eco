@@ -835,7 +835,7 @@ function callSendAPI (sender_psid, response) {
 }
 
 facebookRouter.get('/privacy', function (req, res) {
-  fs.readFile('./view/HMC+챗봇+처리방침.html', function (err, data) {
+  fs.readFile('./views/HMC+챗봇+처리방침.html', function (err, data) {
     if (err) {throw err};
     console.log(data);
     res.send(data)
