@@ -51,7 +51,7 @@ kakaoRouter.post('/', function (req, res) {
     "type": "text",
   }
 
-  console.log(formData)
+  console.log("Form: ", formData)
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
@@ -66,6 +66,8 @@ kakaoRouter.post('/', function (req, res) {
     }
 
     // 응답 역시 콘솔로 표시
+    console.log(apiResponse.body)
+
     var apiResponseBody = JSON.parse(apiResponse.body);
     console.log("\n==========================API response==============================");
     console.log(apiResponseBody);
