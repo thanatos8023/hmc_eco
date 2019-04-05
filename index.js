@@ -55,7 +55,7 @@ kakaoRouter.post('/', function (req, res) {
 
   // API 서버에 요청할 body form. 
   // POST 방식으로 form 변수로 전달함
-  request.post("http://58.225.115.230:23701/hmc/message", {form: {
+  request.post("http://58.225.115.230:3101/hmc/message", {form: {
     "user_key": state,
     "content": content,
     "type": "text",
@@ -326,7 +326,7 @@ naverRouter.post('/', function(req, res) {
 	request.post({
 		headers : headers,
 		//url:"http://192.168.123.237:23701/hmc/message",
-		url : "http://58.225.115.230:23701/hmc/message",
+		url : "http://58.225.115.230:3101/hmc/message",
 		form : formData,
 	},
 	function(err, apiResponse, body) {
@@ -629,7 +629,7 @@ function handleMessage (sender_psid, recieved_message) {
   request.post({
     headers : headers,
     //url:"http://192.168.123.237:23701/hmc/message",
-    url : "http://58.225.115.230:23701/hmc/message",
+    url : "http://58.225.115.230:3101/hmc/message",
     form : formData,
   },
   function(err, apiResponse, body) {
@@ -855,7 +855,7 @@ facebookRouter.get('/url', function (req, res) {
   console.log(req.query);
   var url = req.query.url;
   if (url.indexOf("stg.kr-ccapi") > 0) {
-    url = 'https://stg.kr-ccapi.hyundai.com/api/v1/user/oauth2/authorize?client_id=03f251b4-75ca-4042-bbc1-c8375a767a82&redirect_uri=http://58.225.115.230:23701/hmc/oauth2url&response_type=code&state=' + req.query.state;
+    url = 'https://stg.kr-ccapi.hyundai.com/api/v1/user/oauth2/authorize?client_id=03f251b4-75ca-4042-bbc1-c8375a767a82&redirect_uri=http://58.225.115.230:3101/hmc/oauth2url&response_type=code&state=' + req.query.state;
   }  
   res.redirect(url);
 });
